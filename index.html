@@ -1277,31 +1277,30 @@
         `;
         document.head.appendChild(style);
 
-        // PARALLAX EFFECT
-        let mouseX = 0;
-        let mouseY = 0;
-        let tiltX = 0;
-        let tiltY = 0;
+        // --- NEW PARALLAX LOGIC ---
+        let mouseX = 0, mouseY = 0;
+        let tiltX = 0, tiltY = 0;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        // Mouse movement for desktop
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-            updateParallax();
-        });
-
-        // Device orientation for mobile
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', (e) => {
-                tiltX = (e.gamma / 45) || 0;
-                tiltY = (e.beta / 45) || 0;
+        // DESKTOP: Only listen to mouse if NOT on mobile
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
                 updateParallax();
             });
         }
 
+        // MOBILE: Function called only by sensor data
+        function handleOrientation(e) {
+            tiltX = (e.gamma / 30) || 0; 
+            tiltY = (e.beta / 30) || 0;
+            updateParallax();
+        }
+
         function updateParallax() {
-            const moveX = mouseX || tiltX;
-            const moveY = mouseY || tiltY;
+            const moveX = isMobile ? tiltX : mouseX;
+            const moveY = isMobile ? tiltY : mouseY;
 
             const parallaxItems = document.querySelectorAll('.parallax-item');
             parallaxItems.forEach(item => {
