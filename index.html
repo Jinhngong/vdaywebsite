@@ -16,7 +16,8 @@
 
         body {
             font-family: 'Cormorant Garamond', serif;
-            /* Force the background to use your image */
+            /* 1. Use !important to override any other styles */
+            /* 2. Changed 'repeat' to 'no-repeat center center fixed' */
             background: url('bg1.jpg') no-repeat center center fixed !important;
             background-size: cover !important;
             min-height: 100vh;
@@ -25,6 +26,7 @@
             align-items: center;
             overflow: hidden;
             position: relative;
+            z-index: 1;
         }
 
         body::before {
@@ -34,9 +36,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* This was the white sheet; we are making it transparent */
+            /* 3. This was the 'fog' layer. We must make it transparent */
             background: transparent !important;
             pointer-events: none;
+            /* 4. Move this BEHIND the body background */
             z-index: -1; 
         }
         
