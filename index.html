@@ -230,13 +230,14 @@
 
         /* PARALLAX CONTAINER FOR REAL IMAGES */
         .parallax-container {
-            position: fixed;
+            position: relative;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 5;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .parallax-item {
@@ -246,6 +247,9 @@
         }
 
         .parallax-item img {
+            position: absolute;
+            z-index: 5;
+            pointer-events: none;
             width: 100%;
             height: auto;
             display: block;
@@ -254,20 +258,20 @@
 
         /* Bottom left balloons - tilted */
         .balloons {
-            bottom: -20px;
-            left: -20px;
+            bottom: -80px;
+            left: -30px;
             width: 750px;
             transform-origin: bottom left;
         }
 
         .balloons img {
-            transform: rotate(40deg);
+            transform: rotate(25deg);
         }
 
         /* Bottom right peony - opening toward center */
         .peony {
-            bottom: -20px;
-            right: -20px;
+            bottom: -50px;
+            right: -40px;
             width: 600px;
             transform-origin: bottom right;
         }
