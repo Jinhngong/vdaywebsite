@@ -853,84 +853,45 @@
             box-shadow: 0 4px 12px rgba(255, 179, 193, 0.3);
         }
 
-        /* Mobile Responsive Adjustments */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            /* 1. Adaptive Container - Centered and High */
             .password-screen, .question-box, .letter-box {
-                width: 85% !important;
-                max-width: 350px !important;
-                min-height: auto !important;
-                padding: 25px !important;
-                
-                /* Centering + Raising it higher */
+                width: 90% !important;
+                /* This line pushes the boxes UP from the center */
+                transform: translateY(-80px) !important; 
                 margin: 0 auto !important;
-                position: relative;
-                transform: translateY(-100px) !important; 
-                
-                /* Flex ensures everything inside (GIF/Text) stays centered */
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                text-align: center !important;
+                z-index: 10;
+            }
+            
+            .password-screen h1, .question-box h1 {
+                font-size: 2.2em;
             }
 
-            /* 2. Centering the GIF */
-            .question-box img {
-                width: 150px !important;
-                height: auto !important;
-                margin: 10px auto 20px auto !important;
-                display: block !important;
-            }
-
-            /* 3. Fixed Envelope Wrapping (No gaps) */
             #envelope {
-                position: relative;
-                width: 280px;  /* Total Width */
-                height: 180px; /* Total Height */
-                background-color: #f08080; /* Base color to hide tiny sub-pixel gaps */
-                margin: 0 auto;
+                width: 280px;
+                height: 240px;
             }
 
             .flap {
-                position: absolute;
-                top: 0;
-                width: 0; height: 0;
-                /* Half of 280 is 140. This ensures closure. */
                 border-left: 140px solid transparent;
                 border-right: 140px solid transparent;
-                border-top: 100px solid #ffb3c1; /* Top flap */
-                z-index: 3;
+                border-bottom: 88px solid transparent;
+                border-top: 112px solid #ffb3c1;
             }
 
             .pocket {
-                position: absolute;
-                bottom: 0;
-                width: 0; height: 0;
                 border-left: 140px solid #ffc9d4;
                 border-right: 140px solid #ffc9d4;
-                border-bottom: 90px solid #ffe5ec;
-                border-top: 90px solid transparent;
-                z-index: 4;
+                border-bottom: 120px solid #ffe5ec;
+                border-top: 120px solid transparent;
             }
 
-            /* 4. Centered Letter inside Envelope */
-            .letter {
-                position: absolute;
-                left: 15px;      /* (Envelope Width 280 - Letter Width 250) / 2 */
-                bottom: 10px;
-                width: 250px;
-                height: 160px;
-                background: white;
-                text-align: center;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 15px;
-                z-index: 2;
-            }
-            
             .open .letter {
-                transform: translateY(-120px) !important;
+                transform: translateY(-140px);
+            }
+
+            .envlope-wrapper {
+                height: 420px;
             }
         }
 
