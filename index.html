@@ -756,6 +756,10 @@
     </style>
 </head>
 <body>
+    <div id="startOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h2 style="font-family: 'Mrs Saint Delafield', cursive; font-size: 3rem; color: #d63384;">Welcome</h2>
+        <button id="startBtn" style="padding: 15px 30px; font-size: 1.2rem; border-radius: 25px; border: none; background: #ff4d6d; color: white; cursor: pointer; margin-top: 20px;">Open Valentine</button>
+    </div>
     <!-- Parallax Container for REAL Valentine's Images -->
     <div class="parallax-container" id="parallaxContainer"></div>
 
@@ -967,15 +971,27 @@
             updateParallax();
         });
 
-        // Device orientation for mobile
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', (e) => {
-                // divisor 30 makes it more sensitive than 45
-                tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
-                tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
-                isTiltActive = true;
-                updateParallax();
-            });
+        // NEW: Function to request permission and start tilt
+        async function initSensors() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                try {
+                    const permission = await DeviceOrientationEvent.requestPermission();
+                    if (permission === 'granted') {
+                        window.addEventListener('deviceorientation', handleTilt);
+                    }
+                } catch (e) { console.error("Sensor error:", e); }
+            } else {
+                // Non-iOS devices
+                window.addEventListener('deviceorientation', handleTilt);
+            }
+        }
+
+        function handleTilt(e) {
+            // divisor 30 makes it more sensitive
+            tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
+            tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
+            isTiltActive = true;
+            updateParallax();
         }
 
         function updateParallax() {
@@ -985,16 +1001,12 @@
             const items = document.querySelectorAll('.parallax-item');
             items.forEach(item => {
                 const speed = parseFloat(item.dataset.speed) || 1;
-                const translateX = moveX * 30 * speed;
-                const translateY = moveY * 30 * speed;
-                
-                // Apply transform without affecting other properties
+                // range 40 for more noticeable movement
+                const translateX = moveX * 40 * speed; 
+                const translateY = moveY * 40 * speed;
                 item.style.transform = `translate(${translateX}px, ${translateY}px)`;
             });
         }
-
-        // Initialize parallax
-        updateParallax();
 
         // Create floating hearts
         function createFloatingHearts() {
