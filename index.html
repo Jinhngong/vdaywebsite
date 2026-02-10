@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Cormorant Garamond', serif;
-            /* Force the background to be your image, no repeat, and cover everything */
+            /* Force the background to use your image */
             background: url('bg1.jpg') no-repeat center center fixed !important;
             background-size: cover !important;
             min-height: 100vh;
@@ -34,10 +34,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Changed to transparent so it doesn't block the image */
+            /* This was the white sheet; we are making it transparent */
             background: transparent !important;
             pointer-events: none;
-            z-index: -1; /* Pushes this layer behind your background image */
+            z-index: -1; 
         }
         
         /* Heart garland at top */
@@ -758,7 +758,7 @@
     </style>
 </head>
 <body>
-    <div id="startOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#fef5f5; z-index:10000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+    <div id="startOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255, 245, 245, 0.7); backdrop-filter: blur(5px); z-index:10000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
         <h1 style="font-family: 'Mrs Saint Delafield', cursive; font-size: 4rem; color: #d4738d; margin-bottom: 20px;">for you</h1>
         <button id="startBtn" style="padding: 16px 50px; font-size: 18px; background: linear-gradient(135deg, #ffb3c1, #ffc9d4); color: white; border: none; border-radius: 25px; cursor: pointer; font-family: 'Cormorant Garamond', serif; box-shadow: 0 4px 15px rgba(255, 179, 193, 0.4);">open valentine</button>
     </div>
