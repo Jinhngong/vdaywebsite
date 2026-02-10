@@ -242,7 +242,7 @@
         .parallax-item {
             position: absolute;
             will-change: transform;
-            transition: none;
+            transition: transform 0.3s ease-out;
         }
 
         .parallax-item img {
@@ -250,6 +250,53 @@
             height: auto;
             display: block;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Bottom left balloons - tilted */
+        .balloons {
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            transform-origin: bottom left;
+        }
+
+        .balloons img {
+            transform: rotate(35deg);
+        }
+
+        /* Bottom right peony - opening toward center */
+        .peony {
+            bottom: 0;
+            right: 0;
+            width: 220px;
+            transform-origin: bottom right;
+        }
+
+        .peony img {
+            transform: rotate(-15deg) scaleX(-1);
+        }
+
+        /* Top right lipstick */
+        .lipstick {
+            top: 80px;
+            right: 40px;
+            width: 100px;
+            transform-origin: top right;
+        }
+
+        /* Mobile adjustments for parallax images */
+        @media (max-width: 768px) {
+            .balloons {
+                width: 130px;
+            }
+            .peony {
+                width: 140px;
+            }
+            .lipstick {
+                width: 70px;
+                top: 70px;
+                right: 20px;
+            }
         }
 
         /* Password Screen */
@@ -342,10 +389,6 @@
             font-style: italic;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
         /* Question Screen */
         .question-screen {
             display: none;
@@ -435,21 +478,14 @@
             background: #ff4081;
             color: white;
             box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
-        }
-
-        /* Heart shape on yes button */
-        .yes-btn::before {
-            content: "♥";
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2em;
-            color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .yes-btn:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
             background: #f50057;
         }
@@ -460,7 +496,11 @@
             box-shadow: 0 2px 10px rgba(255, 192, 203, 0.3);
         }
 
-        /* Love Letter Styles */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Love Letter Screen */
         .love-letter-screen {
             display: none;
             z-index: 10;
@@ -481,6 +521,30 @@
             position: relative;
         }
 
+        .letter-box::before {
+            content: "♡";
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            color: #ffb3c1;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.2));
+        }
+
+        .letter-box::after {
+            content: "✧·˚ ༘ * ♡";
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #ffc9d4;
+            opacity: 0.5;
+            letter-spacing: 6px;
+        }
+
+        /* Decorative corner flourishes for cards */
         .card-flourish {
             position: absolute;
             font-size: 40px;
@@ -494,10 +558,11 @@
         .card-flourish.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
         .card-flourish.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
 
+        /* ENVELOPE AND LETTER - EXTENDED LARGER */
         #envelope {
             position: relative;
-            width: 280px;
-            height: 180px;
+            width: 350px;
+            height: 300px;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
             margin-left: auto;
@@ -516,19 +581,19 @@
         }
 
         .flap {
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-bottom: 82px solid transparent;
-            border-top: 98px solid #ffb3c1;
+            border-left: 175px solid transparent;
+            border-right: 175px solid transparent;
+            border-bottom: 110px solid transparent;
+            border-top: 140px solid #ffb3c1;
             transform-origin: top;
             pointer-events: none;
         }
 
         .pocket {
-            border-left: 140px solid #ffc9d4;
-            border-right: 140px solid #ffc9d4;
-            border-bottom: 90px solid #ffe5ec;
-            border-top: 90px solid transparent;
+            border-left: 175px solid #ffc9d4;
+            border-right: 175px solid #ffc9d4;
+            border-bottom: 150px solid #ffe5ec;
+            border-top: 150px solid transparent;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
         }
@@ -536,14 +601,16 @@
         .letter {
             position: relative;
             background: linear-gradient(to bottom, #ffffff, #fffbfc);
-            width: 90%;
+            width: 92%;
             margin-left: auto;
             margin-right: auto;
-            height: 90%;
-            top: 5%;
+            height: 94%;
+            top: 3%;
             border-radius: 6px;
             box-shadow: 0 2px 26px rgba(255, 182, 193, 0.15);
             font-family: "Dancing Script", cursive;
+            overflow-y: auto;
+            padding: 10px 5px;
         }
 
         .letter:after {
@@ -557,41 +624,95 @@
 
         .words {
             position: absolute;
-            left: 10%;
-            width: 80%;
-            height: 14%;
+            left: 8%;
+            width: 84%;
             background-color: transparent;
             color: #8b5a6f;
         }
 
         .words.line1 {
-            top: 10%;
-            font-size: 0.75rem;
+            top: 4%;
+            font-size: 0.85rem;
             width: 30%;
-            height: 7%;
             font-style: italic;
             color: #a87b92;
         }
 
         .words.line2 {
-            top: 30%;
+            top: 10%;
             text-align: center;
-            font-size: 1.15rem;
-            line-height: 1.4;
+            font-size: 1.05rem;
+            line-height: 1.5;
         }
 
         .words.line3 {
-            top: 50%;
-            font-size: 1.15rem;
+            top: 18%;
+            font-size: 1.05rem;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .words.line4 {
-            top: 70%;
-            font-size: 1.15rem;
+            top: 26%;
+            font-size: 1.05rem;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.5;
+        }
+
+        .words.line5 {
+            top: 34%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line6 {
+            top: 42%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line7 {
+            top: 50%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line8 {
+            top: 58%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line9 {
+            top: 66%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line10 {
+            top: 74%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line11 {
+            top: 82%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .words.line12 {
+            top: 90%;
+            font-size: 1.05rem;
+            text-align: center;
+            line-height: 1.5;
         }
 
         .open .flap {
@@ -613,15 +734,14 @@
         }
 
         .open .letter {
-            transform: translateY(-100px);
+            transform: translateY(-180px);
             transition: transform 0.4s 0.6s ease, z-index 0.6s;
             z-index: 2;
         }
 
-        /* HEARTS FLOATING FROM ENVELOPE - RESTORED! */
         .hearts {
             position: absolute;
-            top: 90px;
+            top: 140px;
             left: 0;
             right: 0;
             z-index: 2;
@@ -688,27 +808,37 @@
         }
 
         @keyframes slideUp {
-            0% { top: 0; }
-            100% { top: -600px; }
+            0% {
+                top: 0;
+            }
+            100% {
+                top: -600px;
+            }
         }
 
         @keyframes sideSway {
-            0% { margin-left: 0px; }
-            100% { margin-left: 50px; }
+            0% {
+                margin-left: 0px;
+            }
+            100% {
+                margin-left: 50px;
+            }
         }
 
         .envlope-wrapper {
-            height: 380px;
+            height: 500px;
         }
 
         .reset {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .reset button {
             font-weight: 500;
+            font-style: normal;
             transition: all 0.3s ease;
+            -webkit-appearance: none;
             background-color: transparent;
             border: 2px solid #ffb3c1;
             border-radius: 18px;
@@ -734,35 +864,54 @@
             box-shadow: 0 4px 12px rgba(255, 179, 193, 0.3);
         }
 
-        /* Responsive */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .password-screen, .question-box, .letter-box {
                 padding: 40px 30px;
+                max-width: 90%;
             }
             
             .password-screen h1, .question-box h1 {
                 font-size: 2.2em;
             }
 
-            .parallax-item img {
-                max-width: 80px;
+            #envelope {
+                width: 280px;
+                height: 240px;
+            }
+
+            .flap {
+                border-left: 140px solid transparent;
+                border-right: 140px solid transparent;
+                border-bottom: 88px solid transparent;
+                border-top: 112px solid #ffb3c1;
+            }
+
+            .pocket {
+                border-left: 140px solid #ffc9d4;
+                border-right: 140px solid #ffc9d4;
+                border-bottom: 120px solid #ffe5ec;
+                border-top: 120px solid transparent;
+            }
+
+            .open .letter {
+                transform: translateY(-140px);
+            }
+
+            .envlope-wrapper {
+                height: 420px;
             }
         }
 
-        @media (max-width: 480px) {
-            .parallax-item img {
-                max-width: 60px;
-            }
-        }
-
-        /* Start overlay */
+        /* Start overlay - FIXED CENTERING */
         .start-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 245, 245, 0.98);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -770,16 +919,20 @@
         }
 
         .start-button {
-            padding: 20px 50px;
-            font-size: 1.5em;
+            padding: 20px 60px;
+            font-size: 2em;
             background: linear-gradient(135deg, #ff4081, #f50057);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
             font-family: 'Mrs Saint Delafield', cursive;
             box-shadow: 0 8px 25px rgba(255, 64, 129, 0.4);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
         .start-button:hover {
@@ -789,13 +942,29 @@
     </style>
 </head>
 <body>
-    <!-- Start Overlay for Mobile Sensors -->
+    <!-- Start Overlay for Mobile Sensors - FIXED CENTERING -->
     <div class="start-overlay" id="startOverlay">
-        <button class="start-button" id="startBtn">start ♡</button>
+        <button class="start-button" id="startBtn">
+            <span>start</span>
+            <span>♡</span>
+        </button>
     </div>
 
-    <!-- Parallax Container for REAL Valentine's Images -->
-    <div class="parallax-container" id="parallaxContainer"></div>
+    <!-- Parallax Container for REAL Valentine's Images - WITH YOUR UPLOADED IMAGES -->
+    <div class="parallax-container" id="parallaxContainer">
+        <!-- Balloons bottom left - tilted 35deg -->
+        <div class="parallax-item balloons" data-speed="0.8">
+            <img src="_CITYPNG_COM_HD_Realistic_Red_Balloons_Hearts_Valentine_Love_PNG_-_1500x1500.png" alt="balloons">
+        </div>
+        <!-- Peony bottom right - opening toward center -->
+        <div class="parallax-item peony" data-speed="0.6">
+            <img src="pngtree-pink-peony-flower-isolated-png-image_12980484.png" alt="peony">
+        </div>
+        <!-- Lipstick top right -->
+        <div class="parallax-item lipstick" data-speed="1.0">
+            <img src="pinup-style-lip-print.png" alt="lipstick">
+        </div>
+    </div>
 
     <!-- Heart garland at top -->
     <div class="heart-garland"></div>
@@ -854,7 +1023,7 @@
         <p class="error" id="errorMsg"></p>
     </div>
 
-    <!-- Question Screen -->
+    <!-- Question Screen - FIXED CENTERING -->
     <div class="question-screen" id="questionScreen">
         <div class="question-box">
             <div class="card-flourish tl">✿</div>
@@ -866,13 +1035,18 @@
                 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHE4ZnJ3aXNqYWd6cjBtdXI2OGNpcjI5dWp1bDhmbjNrMGM5aDZzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="cute cat">
             </div>
             <div class="buttons">
-                <button class="yes-btn" onclick="handleYes()">yes</button>
-                <button class="no-btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">no</button>
+                <button class="yes-btn" id="yesBtn" onclick="handleYes()">
+                    <span id="yesText">yes</span>
+                    <span id="yesHeart">♥</span>
+                </button>
+                <button class="no-btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">
+                    <span id="noText">no</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Love Letter Screen -->
+    <!-- Love Letter Screen - EXTENDED LETTER -->
     <div class="love-letter-screen" id="loveLetterScreen">
         <div class="letter-box">
             <div class="card-flourish tl">✿</div>
@@ -889,6 +1063,14 @@
                         <div class="words line2">i still get butterflies</div>
                         <div class="words line3">every time i see you</div>
                         <div class="words line4">and i hope i always do</div>
+                        <div class="words line5">you make every moment</div>
+                        <div class="words line6">feel like magic</div>
+                        <div class="words line7">thank you for being</div>
+                        <div class="words line8">the most amazing person</div>
+                        <div class="words line9">in my life</div>
+                        <div class="words line10">you mean everything to me</div>
+                        <div class="words line11">and more</div>
+                        <div class="words line12">i love you ♡</div>
                     </div>
                     <div class="hearts">
                         <div class="heart a1"></div>
@@ -905,86 +1087,43 @@
     </div>
 
     <script>
-        // REAL VALENTINE'S IMAGES WITH PARALLAX
-        const parallaxImages = [
-            { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '10%', top: '15%', speed: 1.5, size: 100 },
-            { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '85%', top: '25%', speed: 1.2, size: 90 },
-            { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '5%', top: '70%', speed: 1.8, size: 110 },
-            { url: 'https://www.pngall.com/wp-content/uploads/2016/04/Rose-Free-Download-PNG.png', left: '15%', top: '45%', speed: 0.8, size: 70 },
-            { url: 'https://www.pngall.com/wp-content/uploads/2016/04/Rose-Free-Download-PNG.png', left: '80%', top: '50%', speed: 0.9, size: 65 },
-            { url: 'https://pngimg.com/d/chocolate_PNG36.png', left: '20%', top: '80%', speed: 1.1, size: 75 },
-            { url: 'https://pngimg.com/d/chocolate_PNG36.png', left: '75%', top: '10%', speed: 1.4, size: 80 },
-            { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '88%', top: '65%', speed: 1.3, size: 95 }
-        ];
-
-        // Create parallax items
-        const parallaxContainer = document.getElementById('parallaxContainer');
-        parallaxImages.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'parallax-item';
-            div.dataset.speed = item.speed;
-            div.style.left = item.left;
-            div.style.top = item.top;
-            const img = document.createElement('img');
-            img.src = item.url;
-            img.style.width = item.size + 'px';
-            div.appendChild(img);
-            parallaxContainer.appendChild(div);
-        });
-
-        let mouseX = 0, mouseY = 0, tiltX = 0, tiltY = 0, isMouseActive = false, isTiltActive = false;
-
-        // Desktop Mouse Support
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-            isMouseActive = true;
-            updateParallax();
-        });
-
-        // Mobile Sensor Support
-        async function initSensors() {
-            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                try {
-                    const permission = await DeviceOrientationEvent.requestPermission();
-                    if (permission === 'granted') {
-                        window.addEventListener('deviceorientation', handleTilt);
-                    }
-                } catch (e) { console.error(e); }
-            } else {
-                window.addEventListener('deviceorientation', handleTilt);
+        // Create floating hearts and petals
+        function createFloatingHearts() {
+            const heartBg = document.getElementById('heartBg');
+            const symbols = ['♡', '✧', '୨୧', '♡', '✧', '·', '˚'];
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 12 + 10) + 'px';
+                heartBg.appendChild(heart);
             }
         }
+        createFloatingHearts();
 
-        function handleTilt(e) {
-            isMouseActive = false;
-            tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
-            tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
-            isTiltActive = true;
-            updateParallax();
+        // Create falling petals
+        function createPetals() {
+            for (let i = 0; i < 15; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 10 + 's';
+                petal.style.animationDuration = (12 + Math.random() * 8) + 's';
+                const size = Math.random() * 8 + 6;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                document.body.appendChild(petal);
+            }
         }
-
-        function updateParallax() {
-            const moveX = isMouseActive ? mouseX : (isTiltActive ? tiltX : 0);
-            const moveY = isMouseActive ? mouseY : (isTiltActive ? tiltY : 0);
-            document.querySelectorAll('.parallax-item').forEach(item => {
-                const speed = parseFloat(item.dataset.speed) || 1;
-                const translateX = moveX * 45 * speed; 
-                const translateY = moveY * 45 * speed;
-                item.style.transform = `translate(${translateX}px, ${translateY}px)`;
-            });
-        }
-
-        // Start button to initialize sensors
-        document.getElementById('startBtn').addEventListener('click', function() {
-            initSensors();
-            document.getElementById('startOverlay').style.display = 'none';
-        });
+        createPetals();
 
         // Password check
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
             const correctPassword = 'valentine2025';
+            
             if (password === correctPassword) {
                 document.getElementById('passwordScreen').classList.add('hidden');
                 document.getElementById('questionScreen').style.display = 'block';
@@ -993,32 +1132,59 @@
             }
         }
 
-        document.getElementById('passwordInput').addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') checkPassword(); 
+        // Allow Enter key to submit password
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
         });
 
-        // Move No button
+        // FIXED: Move "No" button away with text scaling, STAYS ON SCREEN
         let noButtonSize = 1;
+        let yesButtonSize = 1;
+
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            const yesBtn = document.querySelector('.yes-btn');
+            const yesBtn = document.getElementById('yesBtn');
+            const noText = document.getElementById('noText');
+            const yesText = document.getElementById('yesText');
+            const yesHeart = document.getElementById('yesHeart');
+            
+            // Make No button and text smaller
             noButtonSize = Math.max(0.3, noButtonSize - 0.1);
-            const randomX = Math.random() * (window.innerWidth - 100) + 50;
-            const randomY = Math.random() * (window.innerHeight - 100) + 100;
+            
+            // Calculate safe boundaries with proper margins
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnWidth = btnRect.width;
+            const btnHeight = btnRect.height;
+            const margin = 40; // Increased margin for safety
+            
+            const maxX = window.innerWidth - btnWidth - margin;
+            const maxY = window.innerHeight - btnHeight - margin;
+            const minX = margin;
+            const minY = margin;
+            
+            // Generate random position within safe boundaries
+            const randomX = Math.random() * (maxX - minX) + minX;
+            const randomY = Math.random() * (maxY - minY) + minY;
+            
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
             noBtn.style.transform = `scale(${noButtonSize})`;
-            const yesScale = parseFloat(yesBtn.style.transform?.match(/scale\(([\d.]+)\)/)?.[1] || 1);
-            yesBtn.style.transform = `scale(${Math.min(yesScale + 0.1, 1.5)})`;
+            
+            // Make Yes button and text bigger while keeping centered
+            yesButtonSize += 0.1;
+            yesBtn.style.transform = `scale(${yesButtonSize})`;
+            yesBtn.style.transformOrigin = 'center center';
         }
 
-        // HEART EXPLOSION - RESTORED!
+        // Handle Yes click with natural heart explosion
         function handleYes() {
             document.getElementById('questionScreen').style.display = 'none';
             document.getElementById('loveLetterScreen').style.display = 'block';
             
-            // Create heart explosion
+            // Create natural heart explosion
             const heartTypes = ['♡', '💕', '💖', '💗', '❤️', '💝'];
             const heartColors = ['#ff1744', '#ff4081', '#f50057', '#ff6b9d', '#ff8a80'];
             
@@ -1030,9 +1196,10 @@
                     heart.style.left = '50%';
                     heart.style.top = '50%';
                     heart.style.fontSize = (15 + Math.random() * 25) + 'px';
-                    heart.style.zIndex = '10000';
+                    heart.style.zIndex = '1000';
                     heart.style.color = heartColors[Math.floor(Math.random() * heartColors.length)];
                     
+                    // Natural explosion - random directions and velocities
                     const angle = Math.random() * Math.PI * 2;
                     const distance = 150 + Math.random() * 250;
                     const velocityX = Math.cos(angle) * distance;
@@ -1046,6 +1213,7 @@
                     heart.style.animation = `naturalExplode ${duration}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
                     
                     document.body.appendChild(heart);
+                    
                     setTimeout(() => heart.remove(), duration * 1000);
                 }, i * 30);
             }
@@ -1053,48 +1221,28 @@
 
         // Envelope functionality
         const envelope = document.getElementById('envelope');
-        document.getElementById('open').addEventListener('click', () => { 
+        const btnOpen = document.getElementById('open');
+        const btnReset = document.getElementById('reset');
+
+        function openEnvelope() {
             envelope.classList.add('open'); 
             envelope.classList.remove('close'); 
-        });
-        document.getElementById('reset').addEventListener('click', () => { 
+        }
+
+        function closeEnvelope() {
             envelope.classList.add('close'); 
             envelope.classList.remove('open'); 
-        });
+        }
+
         envelope.addEventListener('click', () => {
             envelope.classList.add('open');
             envelope.classList.remove('close');
         });
 
-        // Create floating hearts and petals
-        (function init() {
-            const heartBg = document.getElementById('heartBg');
-            const symbols = ['♡', '✧', '୨୧', '♡', '✧', '·', '˚'];
-            for (let i = 0; i < 25; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 15 + 's';
-                heart.style.fontSize = (Math.random() * 12 + 10) + 'px';
-                heartBg.appendChild(heart);
-            }
+        btnOpen.addEventListener('click', openEnvelope);
+        btnReset.addEventListener('click', closeEnvelope);
 
-            // Create falling petals
-            for (let i = 0; i < 15; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDelay = Math.random() * 10 + 's';
-                petal.style.animationDuration = (12 + Math.random() * 8) + 's';
-                const size = Math.random() * 8 + 6;
-                petal.style.width = size + 'px';
-                petal.style.height = size + 'px';
-                document.body.appendChild(petal);
-            }
-        })();
-
-        // Add heart explosion animation
+        // Add explosion animation
         const style = document.createElement('style');
         style.textContent = `
             @keyframes naturalExplode {
@@ -1112,6 +1260,63 @@
             }
         `;
         document.head.appendChild(style);
+
+        // PARALLAX EFFECT
+        let mouseX = 0;
+        let mouseY = 0;
+        let tiltX = 0;
+        let tiltY = 0;
+
+        // Mouse movement for desktop
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            updateParallax();
+        });
+
+        // Device orientation for mobile
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                tiltX = (e.gamma / 45) || 0;
+                tiltY = (e.beta / 45) || 0;
+                updateParallax();
+            });
+        }
+
+        function updateParallax() {
+            const moveX = mouseX || tiltX;
+            const moveY = mouseY || tiltY;
+
+            const parallaxItems = document.querySelectorAll('.parallax-item');
+            parallaxItems.forEach(item => {
+                const speed = parseFloat(item.dataset.speed) || 1;
+                const translateX = moveX * 30 * speed;
+                const translateY = moveY * 30 * speed;
+                
+                item.style.transform = `translate(${translateX}px, ${translateY}px)`;
+            });
+        }
+
+        // Start button to initialize sensors (especially for iOS)
+        document.getElementById('startBtn').addEventListener('click', function() {
+            // Request device orientation permission for iOS 13+
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', (e) => {
+                                tiltX = (e.gamma / 45) || 0;
+                                tiltY = (e.beta / 45) || 0;
+                                updateParallax();
+                            });
+                        }
+                    })
+                    .catch(console.error);
+            }
+            
+            // Hide start overlay
+            document.getElementById('startOverlay').style.display = 'none';
+        });
     </script>
 </body>
 </html>
