@@ -16,7 +16,8 @@
 
         body {
             font-family: 'Cormorant Garamond', serif;
-            /* Keeps your specific background and red fallback */
+            /* 1. Use !important to override any other styles */
+            /* 2. Changed 'repeat' to 'no-repeat center center fixed' */
             background: red url('https://wallpapers.com/images/hd/pink-floral-patternwith-ribbons-8emj9nohrt4k3shk.jpg') no-repeat center center fixed !important;
             background-size: cover !important;
             min-height: 100vh;
@@ -35,8 +36,10 @@
             left: 0;
             width: 100%;
             height: 100%;
+            /* 3. This was the 'fog' layer. We must make it transparent */
             background: transparent !important;
             pointer-events: none;
+            /* 4. Move this BEHIND the body background */
             z-index: -1; 
         }
         
@@ -78,12 +81,20 @@
         }
 
         @keyframes petalFall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.3; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
-        /* Scattered hearts */
+        /* Scattered hearts with different styles */
         .scattered-heart {
             position: fixed;
             pointer-events: none;
@@ -92,26 +103,14 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.4; }
-            50% { transform: scale(1.1); opacity: 0.6; }
-        }
-
-        /* Fixed Floating Heart Styles (Needed for the background ♡ icons) */
-        .floating-heart {
-            position: fixed;
-            bottom: -20px;
-            color: #ffb3c1;
-            font-size: 20px;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-            animation: heartFloat 15s linear infinite;
-        }
-
-        @keyframes heartFloat {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            50% { 
+                transform: scale(1.1);
+                opacity: 0.6;
+            }
         }
 
         /* Decorative corners */
@@ -123,11 +122,13 @@
             pointer-events: none;
             z-index: 0;
         }
+
         .corner-decor.top-left { top: 5%; left: 3%; transform: rotate(-20deg); }
         .corner-decor.top-right { top: 5%; right: 3%; transform: rotate(20deg); }
         .corner-decor.bottom-left { bottom: 5%; left: 3%; transform: rotate(15deg); }
         .corner-decor.bottom-right { bottom: 5%; right: 3%; transform: rotate(-15deg); }
 
+        /* Ribbon decorations */
         .ribbon-decor {
             position: fixed;
             font-size: 50px;
@@ -136,14 +137,44 @@
             z-index: 0;
             animation: sway 6s ease-in-out infinite;
         }
-        @keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
 
-        .heart-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
 
-        /* Floating Dissipating Objects */
+        /* Decorative bows in background */
+        .bg-decoration {
+            position: fixed;
+            font-size: 50px;
+            opacity: 0.06;
+            z-index: 0;
+            pointer-events: none;
+            color: #ffb3c1;
+        }
+
+        .bg-decoration:nth-child(1) { top: 10%; left: 10%; transform: rotate(-15deg); }
+        .bg-decoration:nth-child(2) { top: 15%; right: 15%; transform: rotate(20deg); }
+        .bg-decoration:nth-child(3) { bottom: 20%; left: 15%; transform: rotate(10deg); }
+        .bg-decoration:nth-child(4) { bottom: 15%; right: 10%; transform: rotate(-25deg); }
+        .bg-decoration:nth-child(5) { top: 50%; left: 5%; transform: rotate(15deg); }
+        .bg-decoration:nth-child(6) { top: 60%; right: 8%; transform: rotate(-10deg); }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* New Floating Objects Styles */
         .floating-obj {
             position: fixed;
-            bottom: -50px;
+            bottom: -50px; /* Start below the screen */
             pointer-events: none;
             z-index: 2;
             font-size: 20px;
@@ -152,112 +183,664 @@
         }
 
         @keyframes floatUpAndFade {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            50% { transform: translateY(-50vh) translateX(20px) rotate(180deg); opacity: 0.4; }
-            100% { transform: translateY(-110vh) translateX(-20px) rotate(360deg); opacity: 0; }
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6; /* Fade in quickly */
+            }
+            50% {
+                transform: translateY(-50vh) translateX(20px) rotate(180deg);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(-20px) rotate(360deg);
+                opacity: 0; /* Fully dissipate at the top */
+            }
         }
 
-        /* Screens and Buttons (Kept original colors) */
-        .password-screen, .question-box, .letter-box {
+        /* Foreground decorative elements */
+        .fg-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 35px;
+            opacity: 0.25;
+            animation: gentleFloat 8s ease-in-out infinite;
+        }
+
+        .fg-decoration.ribbon {
+            font-size: 40px;
+        }
+
+        .fg-decoration:nth-child(odd) {
+            animation-direction: alternate;
+        }
+
+        .fg-decoration:nth-child(even) {
+            animation-direction: alternate-reverse;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        /* Positioned foreground decorations */
+        .fg-decoration.top-left { top: 8%; left: 5%; color: #ffb3c1; }
+        .fg-decoration.top-right { top: 12%; right: 8%; color: #ffc9d4; animation-delay: 1s; }
+        .fg-decoration.bottom-left { bottom: 10%; left: 8%; color: #ffe5ec; animation-delay: 2s; }
+        .fg-decoration.bottom-right { bottom: 8%; right: 5%; color: #ffb3c1; animation-delay: 1.5s; }
+        .fg-decoration.mid-left { top: 45%; left: 3%; color: #ffc9d4; animation-delay: 0.5s; }
+        .fg-decoration.mid-right { top: 55%; right: 4%; color: #ffe5ec; animation-delay: 2.5s; }
+
+        /* PARALLAX CONTAINER FOR REAL IMAGES */
+        .parallax-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .parallax-item {
+            position: absolute;
+            will-change: transform;
+            transition: transform 0.2s ease-out; /* This smooths the motion */
+            pointer-events: none;
+        }
+
+        .parallax-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Password Screen */
+        .password-screen {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 50px;
+            padding: 60px 50px;
             border-radius: 25px;
-            box-shadow: 0 8px 32px rgba(255, 182, 193, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(255, 182, 193, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8);
             text-align: center;
-            z-index: 100;
+            z-index: 1;
             border: 2px solid rgba(255, 192, 203, 0.3);
             position: relative;
         }
 
-        .yes-btn {
-            background: #ff4081 !important; /* Preserving your specific color */
+        .password-screen::before {
+            content: "🎀";
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 35px;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.3));
+        }
+
+        .password-screen::after {
+            content: "୨୧";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #ffb3c1;
+            opacity: 0.6;
+        }
+
+        .password-screen h1 {
+            color: #d4738d;
+            margin-bottom: 30px;
+            font-size: 3em;
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .password-screen input {
+            padding: 16px 24px;
+            font-size: 18px;
+            border: 2px solid #ffc9d4;
+            border-radius: 15px;
+            width: 300px;
+            margin-bottom: 20px;
+            background: #fff;
+            font-family: 'Cormorant Garamond', serif;
+            transition: all 0.3s ease;
+        }
+
+        .password-screen input:focus {
+            outline: none;
+            border-color: #ffb3c1;
+            box-shadow: 0 0 0 3px rgba(255, 179, 193, 0.1);
+        }
+
+        .password-screen button {
+            padding: 16px 50px;
+            font-size: 17px;
+            background: linear-gradient(135deg, #ffb3c1, #ffc9d4);
             color: white;
-            padding: 16px 42px;
-            border-radius: 20px;
             border: none;
+            border-radius: 20px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 179, 193, 0.3);
+        }
+
+        .password-screen button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 179, 193, 0.4);
+        }
+
+        .error {
+            color: #d4738d;
+            margin-top: 15px;
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Question Screen */
+        .question-screen {
+            display: none;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 
+                0 8px 32px rgba(255, 182, 193, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            max-width: 550px;
+            border: 2px solid rgba(255, 192, 203, 0.3);
+            position: relative;
+        }
+
+        .question-box::before {
+            content: "୨୧";
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #ffb3c1;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.2));
+        }
+
+        .question-box::after {
+            content: "♡ ·˚ ༘ ♡";
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #ffc9d4;
+            opacity: 0.5;
+            letter-spacing: 8px;
+        }
+
+        .question-box h1 {
+            color: #d4738d;
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .gif-container {
+            margin: 35px 0;
+        }
+
+        .gif-container img {
+            max-width: 300px;
+            border-radius: 20px;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 20px rgba(255, 182, 193, 0.2);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .yes-btn, .no-btn {
+            padding: 16px 42px;
+            font-size: 19px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .yes-btn {
+            background: #ff4081;
+            color: white;
             box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
         }
 
-        .no-btn { background: #ffc0cb; color: white; padding: 16px 42px; border-radius: 20px; border: none; cursor: pointer; }
+        /* Heart shape on yes button */
+        .yes-btn::before {
+            content: "♥";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-        /* Parallax */
-        .parallax-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        .parallax-item { position: absolute; will-change: transform; transition: transform 0.2s ease-out; }
-        .parallax-item img { width: 100%; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1)); }
+        .yes-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
+            background: #f50057;
+        }
 
-        /* Envelope */
-        #envelope { position: relative; width: 280px; height: 180px; margin: 50px auto 0; background-color: #ffb3c1; border-radius: 0 0 6px 6px; cursor: pointer; }
-        .flap { border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 98px solid #ffb3c1; transform-origin: top; position: absolute; z-index: 3; }
-        .pocket { border-left: 140px solid #ffc9d4; border-right: 140px solid #ffc9d4; border-bottom: 90px solid #ffe5ec; border-top: 90px solid transparent; position: absolute; z-index: 3; }
-        .letter { position: absolute; background: #fff; width: 90%; height: 90%; left: 5%; top: 5%; z-index: 2; transition: 0.4s; font-family: "Dancing Script", cursive; padding: 20px; }
-        .open .flap { transform: rotateX(180deg); z-index: 1; }
-        .open .letter { transform: translateY(-100px); z-index: 2; }
-        .hidden { display: none !important; }
+        .no-btn {
+            background: #ffc0cb;
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(255, 192, 203, 0.3);
+        }
+
+        /* Love Letter Styles */
+        .love-letter-screen {
+            display: none;
+            z-index: 10;
+        }
+
+        .letter-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 
+                0 8px 32px rgba(255, 182, 193, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            border: 2px solid rgba(255, 192, 203, 0.3);
+            position: relative;
+        }
+
+        .card-flourish {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0.15;
+            color: #ffb3c1;
+            pointer-events: none;
+        }
+
+        .card-flourish.tl { top: 10px; left: 10px; }
+        .card-flourish.tr { top: 10px; right: 10px; transform: scaleX(-1); }
+        .card-flourish.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+        .card-flourish.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
+
+        #envelope {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            margin-left: auto;
+            margin-right: auto;
+            top: 50px;
+            background-color: #ffb3c1;
+            box-shadow: 0 4px 20px rgba(255, 179, 193, 0.3);
+            cursor: pointer;
+        }
+
+        .front {
+            position: absolute;
+            width: 0;
+            height: 0;
+            z-index: 3;
+        }
+
+        .flap {
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-bottom: 82px solid transparent;
+            border-top: 98px solid #ffb3c1;
+            transform-origin: top;
+            pointer-events: none;
+        }
+
+        .pocket {
+            border-left: 140px solid #ffc9d4;
+            border-right: 140px solid #ffc9d4;
+            border-bottom: 90px solid #ffe5ec;
+            border-top: 90px solid transparent;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        .letter {
+            position: relative;
+            background: linear-gradient(to bottom, #ffffff, #fffbfc);
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 90%;
+            top: 5%;
+            border-radius: 6px;
+            box-shadow: 0 2px 26px rgba(255, 182, 193, 0.15);
+            font-family: "Dancing Script", cursive;
+        }
+
+        .letter:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .words {
+            position: absolute;
+            left: 10%;
+            width: 80%;
+            height: 14%;
+            background-color: transparent;
+            color: #8b5a6f;
+        }
+
+        .words.line1 {
+            top: 10%;
+            font-size: 0.75rem;
+            width: 30%;
+            height: 7%;
+            font-style: italic;
+            color: #a87b92;
+        }
+
+        .words.line2 {
+            top: 30%;
+            text-align: center;
+            font-size: 1.15rem;
+            line-height: 1.4;
+        }
+
+        .words.line3 {
+            top: 50%;
+            font-size: 1.15rem;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .words.line4 {
+            top: 70%;
+            font-size: 1.15rem;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .open .flap {
+            transform: rotateX(180deg);
+            transition: transform 0.4s ease, z-index 0.6s;
+            z-index: 1;
+        }
+
+        .close .flap {
+            transform: rotateX(0deg);
+            transition: transform 0.4s 0.6s ease, z-index 1s;
+            z-index: 5;
+        }
+
+        .close .letter {
+            transform: translateY(0px);
+            transition: transform 0.4s ease, z-index 1s;
+            z-index: 1;
+        }
+
+        .open .letter {
+            transform: translateY(-100px);
+            transition: transform 0.4s 0.6s ease, z-index 0.6s;
+            z-index: 2;
+        }
+
+        .hearts {
+            position: absolute;
+            top: 90px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 0;
+            right: 10%;
+            pointer-events: none;
+        }
+
+        .heart:before,
+        .heart:after {
+            position: absolute;
+            content: "";
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: #ffb3c1;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            pointer-events: none;
+        }
+
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .close .heart {
+            opacity: 0;
+            animation: none;
+        }
+
+        .a1 {
+            left: 20%;
+            transform: scale(0.6);
+            opacity: 1;
+            animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
+            animation-fill-mode: forwards;
+            animation-delay: 0.7s;
+        }
+
+        .a2 {
+            left: 55%;
+            transform: scale(1);
+            opacity: 1;
+            animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
+            animation-fill-mode: forwards;
+            animation-delay: 0.7s;
+        }
+
+        .a3 {
+            left: 10%;
+            transform: scale(0.8);
+            opacity: 1;
+            animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
+            animation-fill-mode: forwards;
+            animation-delay: 0.7s;
+        }
+
+        @keyframes slideUp {
+            0% { top: 0; }
+            100% { top: -600px; }
+        }
+
+        @keyframes sideSway {
+            0% { margin-left: 0px; }
+            100% { margin-left: 50px; }
+        }
+
+        .envlope-wrapper {
+            height: 380px;
+        }
+
+        .reset {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .reset button {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            border: 2px solid #ffb3c1;
+            border-radius: 18px;
+            color: #d4738d;
+            display: inline-block;
+            font-size: 15px;
+            text-transform: lowercase;
+            margin: 5px;
+            padding: 14px 28px;
+            line-height: 1em;
+            text-decoration: none;
+            min-width: 130px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .reset button:hover {
+            background: linear-gradient(135deg, #ffb3c1, #ffc9d4);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 179, 193, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .password-screen, .question-box, .letter-box {
+                padding: 40px 30px;
+            }
+            
+            .password-screen h1, .question-box h1 {
+                font-size: 2.2em;
+            }
+
+            .parallax-item img {
+                max-width: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .parallax-item img {
+                max-width: 60px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="startOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255, 245, 245, 0.4); backdrop-filter: blur(5px); z-index:10000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+    <div id="startOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255, 245, 245, 0.7); backdrop-filter: blur(5px); z-index:10000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
         <h1 style="font-family: 'Mrs Saint Delafield', cursive; font-size: 4rem; color: #d4738d; margin-bottom: 20px;">for you</h1>
-        <button id="startBtn" style="padding: 16px 50px; font-size: 18px; background: linear-gradient(135deg, #ffb3c1, #ffc9d4); color: white; border: none; border-radius: 25px; cursor: pointer; font-family: 'Cormorant Garamond', serif;">open valentine</button>
+        <button id="startBtn" style="padding: 16px 50px; font-size: 18px; background: linear-gradient(135deg, #ffb3c1, #ffc9d4); color: white; border: none; border-radius: 25px; cursor: pointer; font-family: 'Cormorant Garamond', serif; box-shadow: 0 4px 15px rgba(255, 179, 193, 0.4);">open valentine</button>
     </div>
 
     <div class="parallax-container" id="parallaxContainer"></div>
     <div class="heart-garland"></div>
-    <div class="heart-bg" id="heartBg"></div>
 
     <div class="corner-decor top-left">🌸</div>
     <div class="corner-decor top-right">🌸</div>
     <div class="corner-decor bottom-left">🌸</div>
     <div class="corner-decor bottom-right">🌸</div>
 
+    <div class="ribbon-decor" style="top: 20%; left: 10%;">🎀</div>
+    <div class="ribbon-decor" style="top: 25%; right: 12%;">🎀</div>
+    <div class="ribbon-decor" style="bottom: 25%; left: 8%;">🎀</div>
+    <div class="ribbon-decor" style="bottom: 20%; right: 10%;">🎀</div>
+
+    <div class="heart-bg" id="heartBg"></div>
+
     <div class="password-screen" id="passwordScreen">
-        <h1 style="font-family: 'Mrs Saint Delafield', cursive; color: #d4738d; font-size: 3em; margin-bottom: 20px;">just for you</h1>
-        <input type="password" id="passwordInput" placeholder="enter password" style="padding:16px; border:2px solid #ffc9d4; border-radius:15px; width:300px; margin-bottom:20px;">
+        <h1>just for you</h1>
+        <input type="password" id="passwordInput" placeholder="enter password">
         <br>
-        <button onclick="checkPassword()" style="padding:16px 50px; background:linear-gradient(135deg, #ffb3c1, #ffc9d4); color:white; border:none; border-radius:20px; cursor:pointer;">enter</button>
+        <button onclick="checkPassword()">enter</button>
         <p class="error" id="errorMsg"></p>
     </div>
 
-    <div class="question-screen hidden" id="questionScreen">
+    <div class="question-screen" id="questionScreen">
         <div class="question-box">
-            <h1 style="font-family: 'Mrs Saint Delafield', cursive; color: #d4738d; font-size: 2.8em;">will you be my valentine?</h1>
-            <div class="gif-container"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHE4ZnJ3aXNqYWd6cjBtdXI2OGNpcjI5dWp1bDhmbjNrMGM5aDZzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" width="250" style="border-radius:20px; margin: 20px;"></div>
+            <h1>will you be my valentine?</h1>
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHE4ZnJ3aXNqYWd6cjBtdXI2OGNpcjI5dWp1bDhmbjNrMGM5aDZzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="cute cat">
+            </div>
             <div class="buttons">
                 <button class="yes-btn" onclick="handleYes()">yes</button>
-                <button class="no-btn" id="noBtn" onmouseover="moveButton()">no</button>
+                <button class="no-btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">no</button>
             </div>
         </div>
     </div>
 
-    <div class="love-letter-screen hidden" id="loveLetterScreen">
+    <div class="love-letter-screen" id="loveLetterScreen">
         <div class="letter-box">
-            <h1 style="font-family: 'Mrs Saint Delafield', cursive; color: #d4738d; font-size: 2.6em; margin-bottom: 20px;">for you</h1>
-            <div id="envelope" class="close">
-                <div class="flap"></div>
-                <div class="pocket"></div>
-                <div class="letter">
-                    <p>to: you</p><br>
-                    <p>i still get butterflies</p>
-                    <p>every time i see you</p>
+            <h1 style="color: #d4738d; font-size: 2.6em; margin-bottom: 35px; text-align: center; font-family: 'Mrs Saint Delafield', cursive;">for you</h1>
+            <div class="envlope-wrapper">
+                <div id="envelope" class="close">
+                    <div class="front flap"></div>
+                    <div class="front pocket"></div>
+                    <div class="letter">
+                        <div class="words line1">to: you</div>
+                        <div class="words line2">i still get butterflies</div>
+                        <div class="words line3">every time i see you</div>
+                        <div class="words line4">and i hope i always do</div>
+                    </div>
                 </div>
             </div>
-            <div class="reset" style="margin-top:30px;">
-                <button id="open" style="padding:10px 20px; cursor:pointer;">open letter</button>
-                <button id="reset" style="padding:10px 20px; cursor:pointer;">close</button>
+            <div class="reset">
+                <button id="open">open letter</button>
+                <button id="reset">close</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Parallax Data
         const parallaxImages = [
             { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '10%', top: '15%', speed: 1.5, size: 100 },
-            { url: 'https://www.pngall.com/wp-content/uploads/2016/04/Rose-Free-Download-PNG.png', left: '15%', top: '45%', speed: 0.8, size: 70 }
+            { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '85%', top: '25%', speed: 1.2, size: 90 },
+            { url: 'https://www.pngall.com/wp-content/uploads/2016/04/Rose-Free-Download-PNG.png', left: '15%', top: '45%', speed: 0.8, size: 70 },
+            { url: 'https://pngimg.com/d/chocolate_PNG36.png', left: '20%', top: '80%', speed: 1.1, size: 75 },
+            { url: 'https://pngimg.com/d/balloon_PNG4969.png', left: '88%', top: '65%', speed: 1.3, size: 95 }
         ];
 
+        const parallaxContainer = document.getElementById('parallaxContainer');
         parallaxImages.forEach(item => {
             const div = document.createElement('div');
             div.className = 'parallax-item';
@@ -268,44 +851,107 @@
             img.src = item.url;
             img.style.width = item.size + 'px';
             div.appendChild(img);
-            document.getElementById('parallaxContainer').appendChild(div);
+            parallaxContainer.appendChild(div);
         });
 
+        let mouseX = 0;
+        let mouseY = 0;
+        let tiltX = 0;
+        let tiltY = 0;
+        let isMouseActive = false;
+        let isTiltActive = false;
+
+        // Desktop Mouse Support
         document.addEventListener('mousemove', (e) => {
-            let x = (e.clientX / window.innerWidth - 0.5) * 2;
-            let y = (e.clientY / window.innerHeight - 0.5) * 2;
-            document.querySelectorAll('.parallax-item').forEach(item => {
-                const s = item.dataset.speed;
-                item.style.transform = `translate(${x * 40 * s}px, ${y * 40 * s}px)`;
-            });
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            isMouseActive = true;
+            updateParallax();
         });
 
-        // FIXED ENGINE: Generator for floating dissipating icons
-        function createFloatingObjects() {
-            const icons = ['🌸', '✨', '🤍', '🌷', '🦋', '🎀'];
-            setInterval(() => {
-                const obj = document.createElement('div');
-                obj.className = 'floating-obj';
-                obj.innerText = icons[Math.floor(Math.random() * icons.length)];
-                obj.style.left = Math.random() * 100 + 'vw';
-                const duration = 6 + Math.random() * 4;
-                obj.style.animationDuration = duration + 's';
-                document.body.appendChild(obj);
-                setTimeout(() => obj.remove(), duration * 1000);
-            }, 1500);
+        // The Fix for Mobile Sensors
+        async function initSensors() {
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                try {
+                    const permission = await DeviceOrientationEvent.requestPermission();
+                    if (permission === 'granted') {
+                        window.addEventListener('deviceorientation', handleTilt);
+                    }
+                } catch (e) { console.error(e); }
+            } else {
+                window.addEventListener('deviceorientation', handleTilt);
+            }
         }
 
-        function createPetals() {
-            setInterval(() => {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                petal.style.left = Math.random() * 100 + 'vw';
-                document.body.appendChild(petal);
-                setTimeout(() => petal.remove(), 15000);
-            }, 1000);
+        function handleTilt(e) {
+            // When the phone tilts, we turn off mouse/touch logic so they don't fight
+            isMouseActive = false;
+            tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
+            tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
+            isTiltActive = true;
+            updateParallax();
         }
 
-        // INITIALIZATION: Calling both hearts and objects
+        function updateParallax() {
+            const moveX = isMouseActive ? mouseX : (isTiltActive ? tiltX : 0);
+            const moveY = isMouseActive ? mouseY : (isTiltActive ? tiltY : 0);
+
+            const items = document.querySelectorAll('.parallax-item');
+            items.forEach(item => {
+                const speed = parseFloat(item.dataset.speed) || 1;
+                // We use 45 here to make the images move more noticeably
+                const translateX = moveX * 45 * speed; 
+                const translateY = moveY * 45 * speed;
+                item.style.transform = `translate(${translateX}px, ${translateY}px)`;
+            });
+        }
+
+        // Connect the Start Button to the Sensors
+        document.getElementById('startBtn').addEventListener('click', function() {
+            initSensors();
+            document.getElementById('startOverlay').style.display = 'none';
+        });
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'valentine2025';
+            
+            if (password === correctPassword) {
+                document.getElementById('passwordScreen').classList.add('hidden');
+                document.getElementById('questionScreen').style.display = 'block';
+            } else {
+                document.getElementById('errorMsg').textContent = 'wrong password, try again';
+            }
+        }
+
+        document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
+
+        let noButtonSize = 1;
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.querySelector('.yes-btn');
+            noButtonSize = Math.max(0.3, noButtonSize - 0.1);
+            const randomX = Math.random() * (window.innerWidth - 100) + 50;
+            const randomY = Math.random() * (window.innerHeight - 100) + 100;
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transform = `scale(${noButtonSize})`;
+            const yesScale = parseFloat(yesBtn.style.transform?.match(/scale\(([\d.]+)\)/)?.[1] || 1);
+            yesBtn.style.transform = `scale(${Math.min(yesScale + 0.1, 1.5)})`;
+        }
+
+        function handleYes() {
+            document.getElementById('questionScreen').style.display = 'none';
+            document.getElementById('loveLetterScreen').style.display = 'block';
+            // Explosion logic remains same as original script
+        }
+
+        const envelope = document.getElementById('envelope');
+        document.getElementById('open').addEventListener('click', () => { envelope.classList.add('open'); envelope.classList.remove('close'); });
+        document.getElementById('reset').addEventListener('click', () => { envelope.classList.add('close'); envelope.classList.remove('open'); });
+
+        // Initialization calls
         (function init() {
             const heartBg = document.getElementById('heartBg');
             for (let i = 0; i < 25; i++) {
@@ -316,38 +962,7 @@
                 heart.style.animationDelay = Math.random() * 15 + 's';
                 heartBg.appendChild(heart);
             }
-            createFloatingObjects();
-            createPetals();
         })();
-
-        // Navigation and Button Logic
-        document.getElementById('startBtn').addEventListener('click', () => {
-            document.getElementById('startOverlay').classList.add('hidden');
-        });
-
-        function checkPassword() {
-            if (document.getElementById('passwordInput').value === 'valentine2025') {
-                document.getElementById('passwordScreen').classList.add('hidden');
-                document.getElementById('questionScreen').classList.remove('hidden');
-            } else {
-                document.getElementById('errorMsg').innerText = 'wrong password, try again';
-            }
-        }
-
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            btn.style.position = 'fixed';
-            btn.style.left = Math.random() * 80 + 'vw';
-            btn.style.top = Math.random() * 80 + 'vh';
-        }
-
-        function handleYes() {
-            document.getElementById('questionScreen').classList.add('hidden');
-            document.getElementById('loveLetterScreen').classList.remove('hidden');
-        }
-
-        document.getElementById('open').addEventListener('click', () => document.getElementById('envelope').className = 'open');
-        document.getElementById('reset').addEventListener('click', () => document.getElementById('envelope').className = 'close');
     </script>
 </body>
 </html>
