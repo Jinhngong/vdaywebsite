@@ -856,8 +856,11 @@
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .password-screen, .question-box, .letter-box {
-                padding: 40px 30px;
-                max-width: 90%;
+                width: 90% !important;
+                /* This line pushes the boxes UP from the center */
+                transform: translateY(-80px) !important; 
+                margin: 0 auto !important;
+                z-index: 10;
             }
             
             .password-screen h1, .question-box h1 {
