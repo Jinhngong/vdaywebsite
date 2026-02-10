@@ -256,32 +256,36 @@
         .balloons {
             bottom: 0;
             left: 0;
-            width: 200px;
+            width: 950px;
             transform-origin: bottom left;
         }
 
         .balloons img {
-            transform: rotate(35deg);
+            transform: rotate(40deg);
         }
 
         /* Bottom right peony - opening toward center */
         .peony {
             bottom: 0;
             right: 0;
-            width: 220px;
+            width: 600px;
             transform-origin: bottom right;
         }
 
         .peony img {
-            transform: rotate(-15deg) scaleX(-1);
+            transform: rotate(-35deg) scaleX(-1);
         }
 
         /* Top right lipstick */
         .lipstick {
             top: 80px;
             right: 40px;
-            width: 100px;
+            width: 350px;
             transform-origin: top right;
+        }
+
+        .lipstick img {
+            transform: rotate(30deg);
         }
 
         /* Mobile adjustments for parallax images */
@@ -954,15 +958,15 @@
     <div class="parallax-container" id="parallaxContainer">
         <!-- Balloons bottom left - tilted 35deg -->
         <div class="parallax-item balloons" data-speed="0.8">
-            <img src="./images/fg1.png" alt="balloons">
+            <img src="images/fg1.png" alt="balloons">
         </div>
-        <!-- Peony bottom right - opening toward center -->
+        
         <div class="parallax-item peony" data-speed="0.6">
-            <img src="./images/fg2.png" alt="peony">
+            <img src="images/fg2.png" alt="peony">
         </div>
-        <!-- Lipstick top right -->
+        
         <div class="parallax-item lipstick" data-speed="1.0">
-            <img src="./images/fg3.png" alt="lipstick">
+            <img src="images/fg3.png" alt="lipstick">
         </div>
     </div>
 
