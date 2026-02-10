@@ -1315,22 +1315,24 @@
 
         // Start button to initialize sensors (especially for iOS)
         document.getElementById('startBtn').addEventListener('click', function() {
-            // Request device orientation permission for iOS 13+
+            // 1. Check if the browser requires permission (iOS 13+)
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 DeviceOrientationEvent.requestPermission()
                     .then(permissionState => {
                         if (permissionState === 'granted') {
-                            window.addEventListener('deviceorientation', (e) => {
-                                tiltX = (e.gamma / 45) || 0;
-                                tiltY = (e.beta / 45) || 0;
-                                updateParallax();
-                            });
+                            // Permission granted! Start listening to tilt
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        } else {
+                            alert("Permission to use tilt sensors was denied.");
                         }
                     })
                     .catch(console.error);
+            } else {
+                // 2. Non-iOS devices or older versions (Standard Android)
+                window.addEventListener('deviceorientation', handleOrientation);
             }
             
-            // Hide start overlay
+            // 3. Hide the overlay
             document.getElementById('startOverlay').style.display = 'none';
         });
     </script>
