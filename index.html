@@ -943,6 +943,26 @@
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(255, 64, 129, 0.5);
         }
+        @media (max-width: 768px) {
+            .balloons {
+                width: 250px !important; /* Makes them big on mobile */
+                bottom: -30px !important; /* Pulls them up so they aren't hidden */
+                left: -40px !important;   /* Positions strings in the corner */
+                display: block !important;
+            }
+
+            .peony {
+                width: 220px !important; /* Makes it big on mobile */
+                bottom: -20px !important; /* Prevents it from being hidden below the screen */
+                right: -30px !important;  /* Pulls it into the corner */
+                display: block !important; /* Ensures it stays visible */
+            }
+
+            .container {
+                width: 85% !important; /* Keeps the text box from being too wide */
+                z-index: 10;           /* Keeps text in front of images */
+            }
+        }
     </style>
 </head>
 <body>
