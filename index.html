@@ -288,21 +288,6 @@
             transform: rotate(30deg);
         }
 
-        /* Mobile adjustments for parallax images */
-        @media (max-width: 768px) {
-            .balloons {
-                width: 130px;
-            }
-            .peony {
-                width: 140px;
-            }
-            .lipstick {
-                width: 70px;
-                top: 70px;
-                right: 20px;
-            }
-        }
-
         /* Password Screen */
         .password-screen {
             background: rgba(255, 255, 255, 0.95);
@@ -956,6 +941,13 @@
                 bottom: -20px !important; /* Prevents it from being hidden below the screen */
                 right: -30px !important;  /* Pulls it into the corner */
                 display: block !important; /* Ensures it stays visible */
+            }
+
+            .lipstick {
+                width: 150px !important;  /* Smaller for phone screens */
+                top: -20px !important;    /* Pull it down slightly into view */
+                right: -20px !important;  /* Pull it left slightly into view */
+                display: block !important;
             }
 
             .container {
