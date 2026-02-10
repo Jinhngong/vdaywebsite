@@ -16,9 +16,9 @@
 
         body {
             font-family: 'Cormorant Garamond', serif;
-            /* Update the line below to use your new bg1 image */
-            background: #fef5f5 url('bg1.jpg') no-repeat center center fixed; 
-            background-size: cover; /* This makes the image fit the whole screen */
+            /* Use bg1.jpg and ensure it stays fixed and centered */
+            background: url('bg1.jpg') no-repeat center center fixed;
+            background-size: cover; 
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -27,6 +27,7 @@
             position: relative;
         }
 
+        /* This was likely the cause of the pink tint - we are removing the pink background from it */
         body::before {
             content: "";
             position: fixed;
@@ -34,11 +35,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 245, 245, 0.3) 0%, rgba(255, 240, 243, 0.5) 100%);
+            /* Reduced opacity so your image shows through clearly */
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
             pointer-events: none;
             z-index: 0;
         }
-
         /* Heart garland at top */
         .heart-garland {
             position: fixed;
