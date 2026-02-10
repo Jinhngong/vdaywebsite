@@ -16,9 +16,9 @@
 
         body {
             font-family: 'Cormorant Garamond', serif;
-            /* Use bg1.jpg and ensure it stays fixed and centered */
-            background: url('bg1.jpg') no-repeat center center fixed;
-            background-size: cover; 
+            /* Force the background to be your image, no repeat, and cover everything */
+            background: url('bg1.jpg') no-repeat center center fixed !important;
+            background-size: cover !important;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -27,7 +27,6 @@
             position: relative;
         }
 
-        /* This was likely the cause of the pink tint - we are removing the pink background from it */
         body::before {
             content: "";
             position: fixed;
@@ -35,11 +34,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* This was blocking your image; we are making it transparent */
-            background: transparent;
+            /* Changed to transparent so it doesn't block the image */
+            background: transparent !important;
             pointer-events: none;
-            z-index: -1; /* Move it behind everything else */
+            z-index: -1; /* Pushes this layer behind your background image */
         }
+        
         /* Heart garland at top */
         .heart-garland {
             position: fixed;
