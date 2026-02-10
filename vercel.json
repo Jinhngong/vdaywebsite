@@ -1,15 +1,10 @@
 {
-  "version": 2,
-  "builds": [
+  "cleanUrls": true,
+  "framework": null,
+  "rewrites": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/images/(.*)",
+      "destination": "/images/$1"
     }
   ]
 }
