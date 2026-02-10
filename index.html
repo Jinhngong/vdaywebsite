@@ -842,9 +842,14 @@
             parallaxContainer.appendChild(div);
         });
 
-        let mouseX = 0, mouseY = 0, tiltX = 0, tiltY = 0;
-        let isMouseActive = false, isTiltActive = false;
+        let mouseX = 0;
+        let mouseY = 0;
+        let tiltX = 0;
+        let tiltY = 0;
+        let isMouseActive = false;
+        let isTiltActive = false;
 
+        // Desktop Mouse Support
         document.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
             mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -852,6 +857,7 @@
             updateParallax();
         });
 
+        // The Fix for Mobile Sensors
         async function initSensors() {
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
                 try {
@@ -866,6 +872,8 @@
         }
 
         function handleTilt(e) {
+            // When the phone tilts, we turn off mouse/touch logic so they don't fight
+            isMouseActive = false;
             tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
             tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
             isTiltActive = true;
@@ -875,12 +883,18 @@
         function updateParallax() {
             const moveX = isMouseActive ? mouseX : (isTiltActive ? tiltX : 0);
             const moveY = isMouseActive ? mouseY : (isTiltActive ? tiltY : 0);
-            document.querySelectorAll('.parallax-item').forEach(item => {
+
+            const items = document.querySelectorAll('.parallax-item');
+            items.forEach(item => {
                 const speed = parseFloat(item.dataset.speed) || 1;
-                item.style.transform = `translate(${moveX * 40 * speed}px, ${moveY * 40 * speed}px)`;
+                // We use 45 here to make the images move more noticeably
+                const translateX = moveX * 45 * speed; 
+                const translateY = moveY * 45 * speed;
+                item.style.transform = `translate(${translateX}px, ${translateY}px)`;
             });
         }
 
+        // Connect the Start Button to the Sensors
         document.getElementById('startBtn').addEventListener('click', function() {
             initSensors();
             document.getElementById('startOverlay').style.display = 'none';
@@ -888,7 +902,9 @@
 
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            if (password === 'valentine2025') {
+            const correctPassword = 'valentine2025';
+            
+            if (password === correctPassword) {
                 document.getElementById('passwordScreen').classList.add('hidden');
                 document.getElementById('questionScreen').style.display = 'block';
             } else {
