@@ -241,7 +241,8 @@
         .parallax-item {
             position: absolute;
             will-change: transform;
-            transition: none;
+            transition: transform 0.2s ease-out; /* This smooths the motion */
+            pointer-events: none;
         }
 
         .parallax-item img {
@@ -969,8 +970,9 @@
         // Device orientation for mobile
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', (e) => {
-                tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 45));
-                tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 45));
+                // divisor 30 makes it more sensitive than 45
+                tiltX = Math.max(-1, Math.min(1, (e.gamma || 0) / 30));
+                tiltY = Math.max(-1, Math.min(1, ((e.beta || 0) - 45) / 30));
                 isTiltActive = true;
                 updateParallax();
             });
@@ -1027,11 +1029,18 @@
         createPetals();
 
         // Password check
-        function checkPassword() {
+        async function checkPassword() {
             const password = document.getElementById('passwordInput').value;
             const correctPassword = 'valentine2025';
             
             if (password === correctPassword) {
+                // Request permission for mobile tilt sensors (iOS requirement)
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    try {
+                        await DeviceOrientationEvent.requestPermission();
+                    } catch (e) { console.error(e); }
+                }
+
                 document.getElementById('passwordScreen').classList.add('hidden');
                 document.getElementById('questionScreen').style.display = 'block';
             } else {
