@@ -7,7 +7,7 @@ a beautiful, romantic valentine's day website with coquette aesthetics, interact
 - 🎀 soft pink coquette floral wallpaper background
 - 🖼️ parallax effects with real images (balloons, peony flower, lipstick kiss)
 - ✨ interactive elements respond to mouse movement (desktop) and device tilt (mobile)
-- 🔒 password protection (default: `valentine2025`)
+- 🔒 password protection (default: `24July2007`)
 - 💝 interactive "will you be my valentine?" question with playful buttons
 - 💌 **customizable animated envelope** with adjustable paper size
 - 💖 natural heart explosion animation
@@ -49,9 +49,9 @@ valentine-website/
 ## customization
 
 ### change the password
-find line ~1035 in `index.html`:
+find line ~1194 in `index.html`:
 ```javascript
-const correctPassword = 'valentine2025';
+const correctPassword = '24July2007';
 ```
 change to your desired password:
 ```javascript
@@ -59,63 +59,69 @@ const correctPassword = 'mypassword';
 ```
 
 ### personalize the love letter
-find the words around lines ~1130-1141 in `index.html`:
+find the words around lines ~1118-1130 in `index.html`:
 ```html
-<div class="words line1">to: you</div>
-<div class="words line2">i still get butterflies</div>
-<div class="words line3">every time i see you</div>
-<div class="words line4">and i hope i always do</div>
-<div class="words line5">you make every moment</div>
-<div class="words line6">feel like magic</div>
-<div class="words line7">thank you for being</div>
-<div class="words line8">the most amazing person</div>
-<div class="words line9">in my life</div>
-<div class="words line10">you mean everything to me</div>
-<div class="words line11">and more</div>
-<div class="words line12">i love you ♡</div>
+<div class="words line1">To: Mook</div>
+<div class="words line2">It's been almost a year since we met,</div>
+<div class="words line3">and I've loved every minute of it. Your style,</div>
+<div class="words line4">your voice, the way you carry yourself...</div>
+<div class="words line5">and even just your smile. EVERYTHING</div>
+<div class="words line6">about you makes my heart skip a beat.</div>
+<div class="words line7">I've liked you for a long time, and even</div>
+<div class="words line8">though I can't be there physically right now,</div>
+<div class="words line9">will you be my Valentine? I'd love to take</div>
+<div class="words line10">you somewhere truly nice when I'm</div>
+<div class="words line11">finally there with you. I love you ♡</div>
+<div class="words line12"></div>
+<div class="words line13">From: Jin</div>
 ```
 
-**you have 12 lines** to write your message! edit each line with your own words.
+**you have 13 lines** to write your message! 
+- line1 is for "To: [name]" (top left)
+- lines 2-11 are for your main message
+- line12 can be left empty or used for extra text
+- line13 is for "From: [name]" (bottom right)
 
-### 📏 adjust paper size and behavior (NEW!)
+edit each line with your own words.
 
-find the CSS variables at the **top of the CSS section** (around line 560):
+### 📏 adjust paper size and slide distance (FULLY CONFIGURABLE!)
+
+find the CSS variables at the **top of the CSS section** (around line 566):
 
 ```css
 :root {
-    --letter-height: 500px;           /* Total paper height */
-    --letter-slide-distance: -320px;  /* How far it slides out */
-    --letter-visible-closed: 150px;   /* Visible when closed */
+    --letter-height: 500px;              /* Total paper height */
+    --letter-slide-distance: 320px;      /* How far it slides out */
 }
 ```
 
 **to make the paper longer:**
 ```css
---letter-height: 600px; /* Increase for taller paper */
+--letter-height: 600px; /* Increase for taller paper with more text lines */
 ```
 - increase this if you need more space for text
-- paper will be taller and extend further down
+- paper will be taller and can hold more message lines
 
-**to make the paper slide out further:**
+**to make the paper slide out further (more visible above envelope):**
 ```css
---letter-slide-distance: -400px; /* More negative = slides out more */
+--letter-slide-distance: 400px; /* Larger = slides further out */
 ```
-- more negative (e.g., -400px) = paper slides further up
-- less negative (e.g., -250px) = paper doesn't slide as far
+- **this controls how much paper extends above the envelope when opened**
+- larger number (e.g., 400px) = paper slides up more, more text visible
+- smaller number (e.g., 250px) = paper doesn't slide as far, less text visible
+- **this is the main control for how far the letter comes out of the envelope!**
 
-**to show less paper when envelope is closed:**
-```css
---letter-visible-closed: 100px; /* Smaller = less visible inside */
-```
-- controls how much of the paper top is visible when envelope is closed
-- smaller value = less paper peeking out
+**paper behavior is automatic and realistic!**
+- when closed: paper sits inside the envelope at the bottom (like a real letter)
+- when opened: paper slides up from inside and emerges from the top
+- smooth, natural animation
+- no manual adjustments needed
 
-**example for a longer letter:**
+**example for a much longer letter:**
 ```css
 :root {
-    --letter-height: 700px;           /* Much taller paper */
-    --letter-slide-distance: -500px;  /* Slides way up */
-    --letter-visible-closed: 120px;   /* Show a bit less when closed */
+    --letter-height: 700px;              /* Taller paper for more text */
+    --letter-slide-distance: 500px;      /* Slides way up - shows more of the long paper */
 }
 ```
 
@@ -222,22 +228,40 @@ three decorative images move with your cursor or device tilt:
 ### customizable love letter envelope
 
 **how the envelope works:**
-- **when closed**: paper sits inside, only top portion visible
+- **when closed**: paper sits inside envelope, only visible through the pocket opening (between the pink sides)
 - **when opened**: 
   1. flap rotates back (goes to background)
-  2. paper slides up from inside envelope
-  3. paper extends as it comes out
-  4. envelope sides frame the paper beautifully
+  2. paper slides up smoothly from inside the envelope
+  3. paper emerges from the pocket opening area (the space between the pink sides)
+  4. envelope sides always frame the paper - creating a seamless appearance
+
+**seamless paper clipping:**
+- the paper sits **inside the envelope** when closed (like a real letter in an envelope)
+- when the flap opens: you can **see the top edge of the white paper sitting inside** through the envelope opening
+- **then** the paper slides **upward from inside** the envelope
+- the paper emerges from the top of the envelope and becomes visible above
+- when closing: paper slides back down into the envelope
+- **perfectly realistic** - just like opening an envelope and pulling out a letter!
 
 **the layering (z-index):**
-- flap: behind everything when open
-- paper: middle layer, slides up behind envelope front
-- pocket (envelope sides): always in front to frame the paper
+- flap: rotates to background when open, covers the opening when closed
+- paper: slides up and down within the clipped envelope container
+- pocket (envelope sides): always on top to frame the paper and maintain the envelope appearance
 
 **customize with 3 easy variables:**
 - `--letter-height`: total paper height (default 500px)
 - `--letter-slide-distance`: how far paper extends when opened (default -320px)
-- `--letter-visible-closed`: peek amount when closed (default 150px)
+- `--letter-visible-closed`: no longer needed - clipping is automatic!
+
+**how the clipping works:**
+- the clipping container extends from `--letter-slide-distance` above the envelope down to the envelope bottom (180px)
+- default: extends from -320px to +180px (full envelope height)
+- this creates a window where the paper is visible inside and above the envelope
+- the paper starts at 10px from envelope top (top edge **right at the envelope opening**)
+- when the flap opens: you see the paper top sitting **exactly at the opening** before it slides
+- when you click "open letter": the paper slides upward by `--letter-slide-distance` using `translateY`
+- the paper emerges from the top of the envelope and becomes fully visible above
+- result: realistic two-step animation - first see the paper edge at the opening, then it slides out!
 
 ### floating hearts from envelope
 - 3 hearts float up when envelope opens
@@ -269,14 +293,14 @@ a: make sure all three PNG files are in the SAME folder as index.html. filenames
 **q: parallax not working on mobile?**  
 a: tap the "start" button first (required for iOS), then allow motion/orientation access when prompted. on ios, https is required (works fine on vercel).
 
-**q: paper sticking out of envelope?**  
-a: adjust `--letter-visible-closed` to a smaller value (e.g., 100px instead of 150px).
+**q: paper sticking out of envelope or phasing through the bottom?**  
+a: this has been fixed! the paper is now clipped to the envelope boundaries using an invisible container. the paper will only appear within the envelope area and emerge smoothly from the pocket opening.
 
 **q: paper doesn't slide out far enough?**  
 a: increase `--letter-slide-distance` to a more negative value (e.g., -400px instead of -320px).
 
 **q: need longer paper for more text?**  
-a: increase `--letter-height` (e.g., 600px or 700px) and adjust `--letter-slide-distance` accordingly.
+a: increase `--letter-height` (e.g., 600px or 700px) and adjust `--letter-slide-distance` accordingly (make it more negative to slide the longer paper further out).
 
 **q: "no" button going off screen?**  
 a: this is fixed! the button calculates safe boundaries with 40px margins. if it still happens, refresh the page.
@@ -291,8 +315,8 @@ a: adjust the `.words` class: decrease `left:` value and increase `width:` value
 
 - deploy to vercel for free https hosting
 - test on mobile to see the tilt effects
-- personalize all 12 lines of the love letter
-- adjust the 3 CSS variables to get perfect paper behavior
+- personalize all 13 lines of the love letter (including To: and From:)
+- adjust the 2 CSS variables to get perfect paper behavior
 - choose a meaningful password
 - make sure all PNG images are uploaded with correct filenames
 - share the link with your valentine 💕
@@ -308,12 +332,12 @@ this is a **client-side only** website:
 
 ## quick customization checklist
 
-- [ ] change password (line ~1035)
-- [ ] edit 12 lines of letter text (lines ~1130-1141)
-- [ ] adjust paper height `--letter-height` if needed (line ~560)
-- [ ] adjust paper slide distance `--letter-slide-distance` if needed
-- [ ] adjust visible portion `--letter-visible-closed` if needed
+- [ ] change password (line ~1194) - currently set to `24July2007`
+- [ ] edit 13 lines of letter text (lines ~1118-1130) - includes To:/From: and message
+- [ ] adjust paper height `--letter-height` if needed (line ~567)
+- [ ] **adjust slide distance `--letter-slide-distance` for how far paper comes out** (line ~568) - **MAIN CONTROL!**
 - [ ] change gif URL if desired (line ~1120)
+- [ ] test envelope opening/closing animation
 - [ ] test on mobile and desktop
 - [ ] deploy to vercel
 - [ ] share with your valentine! 💕
@@ -328,4 +352,4 @@ free to use for personal valentine's projects! 💕
 
 *the best valentine's gift is one that comes from the heart*
 
-**need help?** check the troubleshooting section or adjust the three CSS variables at the top of the file for easy paper customization!
+**need help?** check the troubleshooting section or adjust the two CSS variables at the top of the file for easy paper customization!
