@@ -549,26 +549,6 @@
         .card-flourish.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
 
         /* ENVELOPE AND LETTER - ORIGINAL SIZE RESTORED */
-        /* ============================================
-           ADJUSTABLE VARIABLES FOR PAPER
-           ============================================
-           --letter-height: Total height of paper (default 500px)
-                           Increase for longer letter
-           
-           --letter-slide-distance: How far paper slides out when opened
-                                   (negative = upward, default -320px)
-                                   More negative = slides out further
-           
-           --letter-visible-closed: How much paper shows when envelope is closed
-                                   (default 150px)
-                                   Smaller = less paper visible inside
-           ============================================ */
-        :root {
-            --letter-height: 500px; 
-            --letter-slide-distance: -320px; 
-            --letter-visible-closed: 150px; 
-        }
-
         #envelope {
             position: relative;
             width: 280px;
@@ -580,7 +560,7 @@
             background-color: #ffb3c1;
             box-shadow: 0 4px 20px rgba(255, 179, 193, 0.3);
             cursor: pointer;
-            overflow: visible; /* Allow flap and letter to extend outside */
+            overflow: visible; /* Allow letter to slide out fully */
         }
 
         .front {
@@ -606,7 +586,6 @@
             border-top: 90px solid transparent;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
-            z-index: 3; /* Always in front to frame the paper */
         }
 
         .letter {
@@ -615,8 +594,8 @@
             width: 90%;
             margin-left: auto;
             margin-right: auto;
-            height: var(--letter-height); /* Use variable for height */
-            top: 10px; /* Start just inside envelope */
+            height: 500px; /* Taller paper for more text! Extra hidden when closed */
+            top: 5%;
             border-radius: 6px;
             box-shadow: 0 2px 26px rgba(255, 182, 193, 0.15);
             font-family: "Dancing Script", cursive;
@@ -634,8 +613,8 @@
 
         .words {
             position: absolute;
-            left: 5%;
-            width: 90%;
+            left: 10%;
+            width: 80%;
             background-color: transparent;
             color: #8b5a6f;
         }
@@ -728,27 +707,25 @@
         .open .flap {
             transform: rotateX(180deg);
             transition: transform 0.4s ease, z-index 0.6s;
-            z-index: 1; /* Behind everything when open */
+            z-index: 3; /* Keep flap visible when open */
         }
 
         .close .flap {
             transform: rotateX(0deg);
             transition: transform 0.4s 0.6s ease, z-index 1s;
-            z-index: 5; /* In front when closed, covering opening */
+            z-index: 5;
         }
 
         .close .letter {
             transform: translateY(0px);
-            transition: transform 0.4s ease, z-index 1s, clip-path 0.4s ease;
-            z-index: 1; /* Behind everything when closed */
-            clip-path: inset(0 0 calc(100% - var(--letter-visible-closed)) 0); /* Only show top portion */
+            transition: transform 0.4s ease, z-index 1s;
+            z-index: 1;
         }
 
         .open .letter {
-            transform: translateY(var(--letter-slide-distance)); /* Use variable for slide distance */
-            transition: transform 0.4s 0.6s ease, z-index 0.6s, clip-path 0.4s 0.6s ease;
-            z-index: 2; /* Behind pocket (3) but in front of flap (1) */
-            clip-path: inset(0 0 0 0); /* Show all paper when open */
+            transform: translateY(-320px); /* Slide further out to show all text */
+            transition: transform 0.4s 0.6s ease, z-index 0.6s;
+            z-index: 2;
         }
 
         .hearts {
@@ -796,7 +773,7 @@
             left: 20%;
             transform: scale(0.6);
             opacity: 1;
-            animation: slideUp 4.5s linear 1, sideSway 2s ease-in-out 4 alternate;
+            animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
             animation-fill-mode: forwards;
             animation-delay: 0.7s;
         }
@@ -805,7 +782,7 @@
             left: 55%;
             transform: scale(1);
             opacity: 1;
-            animation: slideUp 4.5s linear 1, sideSway 4s ease-in-out 2 alternate;
+            animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
             animation-fill-mode: forwards;
             animation-delay: 0.7s;
         }
@@ -814,7 +791,7 @@
             left: 10%;
             transform: scale(0.8);
             opacity: 1;
-            animation: slideUp 4.5s linear 1, sideSway 2s ease-in-out 6 alternate;
+            animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
             animation-fill-mode: forwards;
             animation-delay: 0.7s;
         }
@@ -912,13 +889,8 @@
                 border-top: 120px solid transparent;
             }
 
-            .close .letter {
-                clip-path: inset(0 0 calc(100% - var(--letter-visible-closed)) 0); /* Use variable */
-            }
-
             .open .letter {
-                transform: translateY(calc(var(--letter-slide-distance) + 40px)); /* Adjusted for mobile */
-                clip-path: inset(0 0 0 0); /* Show all when open */
+                transform: translateY(-140px);
             }
 
             .envlope-wrapper {
