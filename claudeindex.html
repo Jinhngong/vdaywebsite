@@ -549,6 +549,26 @@
         .card-flourish.br { bottom: 10px; right: 10px; transform: scale(-1, -1); }
 
         /* ENVELOPE AND LETTER - ORIGINAL SIZE RESTORED */
+        /* ============================================
+           ADJUSTABLE VARIABLES FOR PAPER
+           ============================================
+           --letter-height: Total height of paper (default 500px)
+                           Increase for longer letter with more text
+           
+           --letter-slide-distance: How far paper slides up when opened (default 320px)
+                                   Larger number = paper slides further out
+                                   This is the visible length above envelope
+           
+           --letter-peek-below-opening: How much paper peeks below envelope opening when closed (default 30px)
+                                       Paper is slightly visible below the flap
+                                       Smaller = less visible, Larger = more visible
+           ============================================ */
+        :root {
+            --letter-height: 500px; 
+            --letter-slide-distance: 320px; /* How far paper slides up (positive number) */
+            --letter-peek-below-opening: 30px; /* How much paper shows below envelope opening when closed */
+        }
+
         #envelope {
             position: relative;
             width: 280px;
@@ -560,7 +580,19 @@
             background-color: #ffb3c1;
             box-shadow: 0 4px 20px rgba(255, 179, 193, 0.3);
             cursor: pointer;
-            overflow: visible; /* Allow letter to slide out fully */
+            overflow: visible; /* Allow flap to extend, but letter is clipped separately */
+        }
+
+        /* Letter clipping container - shows paper peeking below envelope opening */
+        .letter-container {
+            position: absolute;
+            top: calc(-1 * var(--letter-slide-distance)); /* Extend upward by slide distance */
+            left: 0;
+            width: 100%;
+            height: calc(var(--letter-slide-distance) + var(--letter-peek-below-opening)); /* Clips below envelope opening to show peek */
+            overflow: hidden; /* Paper visible from peek area upward */
+            pointer-events: none;
+            z-index: 2;
         }
 
         .front {
@@ -586,6 +618,7 @@
             border-top: 90px solid transparent;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
+            z-index: 10; /* Always on top to frame the paper */
         }
 
         .letter {
@@ -594,8 +627,8 @@
             width: 90%;
             margin-left: auto;
             margin-right: auto;
-            height: 500px; /* Taller paper for more text! Extra hidden when closed */
-            top: 5%;
+            height: var(--letter-height); /* Use variable for height */
+            top: 400px; /* Start at pocket opening: 80px from envelope + 320px container offset */
             border-radius: 6px;
             box-shadow: 0 2px 26px rgba(255, 182, 193, 0.15);
             font-family: "Dancing Script", cursive;
@@ -613,8 +646,8 @@
 
         .words {
             position: absolute;
-            left: 10%;
-            width: 80%;
+            left: 5%;
+            width: 90%;
             background-color: transparent;
             color: #8b5a6f;
         }
@@ -707,25 +740,25 @@
         .open .flap {
             transform: rotateX(180deg);
             transition: transform 0.4s ease, z-index 0.6s;
-            z-index: 3; /* Keep flap visible when open */
+            z-index: 1; /* Behind everything when open */
         }
 
         .close .flap {
             transform: rotateX(0deg);
             transition: transform 0.4s 0.6s ease, z-index 1s;
-            z-index: 5;
+            z-index: 5; /* In front when closed, covering opening */
         }
 
         .close .letter {
             transform: translateY(0px);
             transition: transform 0.4s ease, z-index 1s;
-            z-index: 1;
+            z-index: 1; /* Behind everything when closed */
         }
 
         .open .letter {
-            transform: translateY(-320px); /* Slide further out to show all text */
+            transform: translateY(calc(-1 * var(--letter-slide-distance))); /* Slide up by negative distance */
             transition: transform 0.4s 0.6s ease, z-index 0.6s;
-            z-index: 2;
+            z-index: 2; /* Behind pocket (3) but in front of flap (1) */
         }
 
         .hearts {
@@ -773,7 +806,7 @@
             left: 20%;
             transform: scale(0.6);
             opacity: 1;
-            animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
+            animation: slideUp 4.5s linear 1, sideSway 2s ease-in-out 4 alternate;
             animation-fill-mode: forwards;
             animation-delay: 0.7s;
         }
@@ -782,7 +815,7 @@
             left: 55%;
             transform: scale(1);
             opacity: 1;
-            animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
+            animation: slideUp 4.5s linear 1, sideSway 4s ease-in-out 2 alternate;
             animation-fill-mode: forwards;
             animation-delay: 0.7s;
         }
@@ -791,7 +824,7 @@
             left: 10%;
             transform: scale(0.8);
             opacity: 1;
-            animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
+            animation: slideUp 4.5s linear 1, sideSway 2s ease-in-out 6 alternate;
             animation-fill-mode: forwards;
             animation-delay: 0.7s;
         }
@@ -889,8 +922,13 @@
                 border-top: 120px solid transparent;
             }
 
+            .close .letter {
+                clip-path: inset(0 0 calc(100% - var(--letter-visible-closed)) 0); /* Use variable */
+            }
+
             .open .letter {
-                transform: translateY(-140px);
+                transform: translateY(calc(var(--letter-slide-distance) + 40px)); /* Adjusted for mobile */
+                clip-path: inset(0 0 0 0); /* Show all when open */
             }
 
             .envlope-wrapper {
@@ -1080,19 +1118,21 @@
                 <div id="envelope" class="close">
                     <div class="front flap"></div>
                     <div class="front pocket"></div>
-                    <div class="letter">
-                        <div class="words line1">to: you</div>
-                        <div class="words line2">i still get butterflies</div>
-                        <div class="words line3">every time i see you</div>
-                        <div class="words line4">and i hope i always do</div>
-                        <div class="words line5">you make every moment</div>
-                        <div class="words line6">feel like magic</div>
-                        <div class="words line7">thank you for being</div>
-                        <div class="words line8">the most amazing person</div>
-                        <div class="words line9">in my life</div>
-                        <div class="words line10">you mean everything to me</div>
-                        <div class="words line11">and more</div>
-                        <div class="words line12">i love you ♡</div>
+                    <div class="letter-container">
+                        <div class="letter">
+                            <div class="words line1">to: you</div>
+                            <div class="words line2">i still get butterflies</div>
+                            <div class="words line3">every time i see you</div>
+                            <div class="words line4">and i hope i always do</div>
+                            <div class="words line5">you make every moment</div>
+                            <div class="words line6">feel like magic</div>
+                            <div class="words line7">thank you for being</div>
+                            <div class="words line8">the most amazing person</div>
+                            <div class="words line9">in my life</div>
+                            <div class="words line10">you mean everything to me</div>
+                            <div class="words line11">and more</div>
+                            <div class="words line12">i love you ♡</div>
+                        </div>
                     </div>
                     <div class="hearts">
                         <div class="heart a1"></div>
