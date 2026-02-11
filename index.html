@@ -1193,7 +1193,19 @@
         // Password check
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            const correctPassword = '24July2007';
+            const correctPasswords = [
+                '24july2007',
+                '24jul2007',
+                '24072007',
+                '2472007',
+                '2472550',
+                '24072550'
+            ];
+
+            // Case-insensitive comparison
+            const isCorrect = correctPasswords.some(correct => 
+                password.toLowerCase() === correct.toLowerCase()
+            );
             
             if (password === correctPassword) {
                 document.getElementById('passwordScreen').classList.add('hidden');
