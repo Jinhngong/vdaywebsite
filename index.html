@@ -553,20 +553,15 @@
            ADJUSTABLE VARIABLES FOR PAPER
            ============================================
            --letter-height: Total height of paper (default 500px)
-                           Increase for longer letter
+                           Increase for longer letter with more text
            
-           --letter-slide-distance: How far paper slides out when opened
-                                   (negative = upward, default -320px)
-                                   More negative = slides out further
-           
-           --letter-visible-closed: How much paper shows when envelope is closed
-                                   (default 150px)
-                                   Smaller = less paper visible inside
+           --letter-slide-distance: How far paper slides up when opened (default 320px)
+                                   Larger number = paper slides further out above envelope
+                                   This is the visible length above envelope when opened
            ============================================ */
         :root {
             --letter-height: 500px; 
-            --letter-slide-distance: -320px; 
-            --letter-visible-closed: 150px; 
+            --letter-slide-distance: 320px; /* How far paper slides up (positive number) */
         }
 
         #envelope {
@@ -580,7 +575,19 @@
             background-color: #ffb3c1;
             box-shadow: 0 4px 20px rgba(255, 179, 193, 0.3);
             cursor: pointer;
-            overflow: visible; /* Allow flap and letter to extend outside */
+            overflow: visible; /* Allow flap to extend, but letter is clipped separately */
+        }
+
+        /* Letter clipping container - extends to envelope bottom for realistic letter */
+        .letter-container {
+            position: absolute;
+            top: calc(-1 * var(--letter-slide-distance)); /* Extend upward by slide distance */
+            left: 0;
+            width: 100%;
+            height: calc(var(--letter-slide-distance) + 180px); /* Slide space + envelope height */
+            overflow: hidden; /* Clips paper to this window */
+            pointer-events: none;
+            z-index: 2;
         }
 
         .front {
@@ -606,7 +613,7 @@
             border-top: 90px solid transparent;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
-            z-index: 3; /* Always in front to frame the paper */
+            z-index: 10; /* Always on top to frame the paper */
         }
 
         .letter {
@@ -616,7 +623,7 @@
             margin-left: auto;
             margin-right: auto;
             height: var(--letter-height); /* Use variable for height */
-            top: 10px; /* Start just inside envelope */
+            top: calc(var(--letter-slide-distance) + 10px); /* Top of paper at envelope opening: 320px offset + 10px from envelope top */
             border-radius: 6px;
             box-shadow: 0 2px 26px rgba(255, 182, 193, 0.15);
             font-family: "Dancing Script", cursive;
@@ -642,87 +649,100 @@
 
         .words.line1 {
             top: 3%;
-            font-size: 0.75rem;
-            width: 30%;
+            font-size: 0.8rem;
+            width: auto;
+            left: 5%;
+            text-align: left;
             font-style: italic;
             color: #a87b92;
         }
 
         .words.line2 {
-            top: 8%;
-            text-align: center;
-            font-size: 1.05rem;
-            line-height: 1.5;
+            top: 10%;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
 
         .words.line3 {
-            top: 14%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 16%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line4 {
-            top: 20%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 22%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line5 {
-            top: 26%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 28%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line6 {
-            top: 32%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 34%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line7 {
-            top: 38%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 40%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line8 {
-            top: 44%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 46%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line9 {
-            top: 50%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 52%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line10 {
-            top: 56%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 58%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line11 {
-            top: 62%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 64%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .words.line12 {
-            top: 68%;
-            font-size: 1.05rem;
-            text-align: center;
-            line-height: 1.5;
+            top: 70%;
+            font-size: 0.95rem;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .words.line13 {
+            top: 90%;
+            right: 5%;
+            left: auto;
+            width: auto;
+            font-size: 0.8rem;
+            text-align: right;
+            font-style: italic;
+            color: #a87b92;
         }
 
         .open .flap {
@@ -739,16 +759,14 @@
 
         .close .letter {
             transform: translateY(0px);
-            transition: transform 0.4s ease, z-index 1s, clip-path 0.4s ease;
+            transition: transform 0.4s ease, z-index 1s;
             z-index: 1; /* Behind everything when closed */
-            clip-path: inset(0 0 calc(100% - var(--letter-visible-closed)) 0); /* Only show top portion */
         }
 
         .open .letter {
-            transform: translateY(var(--letter-slide-distance)); /* Use variable for slide distance */
-            transition: transform 0.4s 0.6s ease, z-index 0.6s, clip-path 0.4s 0.6s ease;
+            transform: translateY(calc(-1 * var(--letter-slide-distance))); /* Slide up by negative distance */
+            transition: transform 0.4s 0.6s ease, z-index 0.6s;
             z-index: 2; /* Behind pocket (3) but in front of flap (1) */
-            clip-path: inset(0 0 0 0); /* Show all paper when open */
         }
 
         .hearts {
@@ -1108,19 +1126,22 @@
                 <div id="envelope" class="close">
                     <div class="front flap"></div>
                     <div class="front pocket"></div>
-                    <div class="letter">
-                        <div class="words line1">to: you</div>
-                        <div class="words line2">i still get butterflies</div>
-                        <div class="words line3">every time i see you</div>
-                        <div class="words line4">and i hope i always do</div>
-                        <div class="words line5">you make every moment</div>
-                        <div class="words line6">feel like magic</div>
-                        <div class="words line7">thank you for being</div>
-                        <div class="words line8">the most amazing person</div>
-                        <div class="words line9">in my life</div>
-                        <div class="words line10">you mean everything to me</div>
-                        <div class="words line11">and more</div>
-                        <div class="words line12">i love you ♡</div>
+                    <div class="letter-container">
+                        <div class="letter">
+                            <div class="words line1">To: Mook</div>
+                            <div class="words line2">It's been almost a year since we met,</div>
+                            <div class="words line3">and I've loved every minute of it. Your style,</div>
+                            <div class="words line4">your voice, the way you carry yourself...</div>
+                            <div class="words line5">and even just your smile. EVERYTHING</div>
+                            <div class="words line6">about you makes my heart skip a beat.</div>
+                            <div class="words line7">I've liked you for a long time, and even</div>
+                            <div class="words line8">though I can't be there physically right now,</div>
+                            <div class="words line9">will you be my Valentine? I'd love to take</div>
+                            <div class="words line10">you somewhere truly nice when I'm</div>
+                            <div class="words line11">finally there with you. I love you ♡</div>
+                            <div class="words line12"></div>
+                            <div class="words line13">From: Jin</div>
+                        </div>
                     </div>
                     <div class="hearts">
                         <div class="heart a1"></div>
@@ -1172,7 +1193,7 @@
         // Password check
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            const correctPassword = 'valentine2025';
+            const correctPassword = '24July2007';
             
             if (password === correctPassword) {
                 document.getElementById('passwordScreen').classList.add('hidden');
