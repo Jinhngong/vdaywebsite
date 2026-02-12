@@ -979,11 +979,11 @@
                 box-sizing: border-box !important;
             }
             
-            /* Letter box specifically - sized for bigger envelope */
+            /* Letter box specifically - original compact size */
             .letter-box {
-                max-width: 420px !important; /* Increased from 360px */
+                max-width: 360px !important; /* Reverted from 420px */
                 width: 90% !important;
-                padding: 20px 18px 75px 18px !important; /* More bottom padding for buttons */
+                padding: 20px 18px 75px 18px !important;
                 min-height: auto !important;
                 max-height: 85vh !important;
                 position: relative !important;
@@ -1048,11 +1048,11 @@
                 height: 574px !important; /* 380px slide + 194px envelope height */
             }
 
-            /* Letter sizing and position for mobile */
+            /* Letter sizing and position for mobile - SHORTER paper */
             .letter {
                 width: 88% !important;
                 max-width: 264px !important; /* 88% of 300px envelope */
-                height: 500px !important; /* Taller for bigger envelope but not too long */
+                height: 400px !important; /* Much shorter - reduced from 500px */
                 top: 388px !important; /* 380px offset + 8px from envelope top */
                 padding: 14px 12px !important;
                 margin-left: auto !important;
@@ -1064,17 +1064,17 @@
                 transform: translateY(-380px) !important; /* Match new slide distance */
             }
 
-            /* Envelope moves down more on mobile to reveal "from: Jin" */
+            /* Envelope moves down to reveal signature on shorter letter */
             #envelope.open {
-                transform: translateY(120px) !important; /* Increased for bigger envelope */
+                transform: translateY(105px) !important; /* Adjusted for shorter letter */
             }
 
-            /* Envelope wrapper height for mobile - sized for bigger envelope */
+            /* Envelope wrapper - original container size, envelope bigger inside */
             .envlope-wrapper {
-                height: 480px !important; /* Increased for bigger envelope */
+                height: 430px !important; /* Adjusted for shorter letter */
                 margin-top: 8px !important;
                 width: 100% !important;
-                max-width: 420px !important; /* Increased to accommodate bigger envelope */
+                max-width: 360px !important; /* Reverted from 420px */
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
@@ -1149,12 +1149,12 @@
 
             .words.line13 {
                 font-size: 0.80rem !important;
-                top: 62% !important;
+                top: 67% !important; /* Adjusted for shorter letter */
             }
             
             .words.line14 {
-                font-size: 0.68rem !important; /* Increased from 0.60rem */
-                top: 78% !important; /* Moved higher to ensure visibility */
+                font-size: 0.68rem !important;
+                top: 86% !important; /* Adjusted for shorter 400px letter */
                 right: 7% !important;
             }
 
@@ -1505,26 +1505,22 @@
             const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
-                // MOBILE: Get actual button dimensions
-                const rect = noBtn.getBoundingClientRect();
-                const scaledWidth = rect.width;
-                const scaledHeight = rect.height;
+                // MOBILE: Use LARGE FIXED margins to ensure button always stays visible
+                // Even when scaled very small, the button stays well within bounds
+                const marginX = 100; // Large fixed margin from left/right edges
+                const marginY = 120; // Large fixed margin from top/bottom edges
                 
-                // Use larger margins for safety - ensure fully visible and clickable
-                const marginX = Math.max(40, scaledWidth); // At least 40px or button width
-                const marginY = Math.max(60, scaledHeight); // At least 60px or button height
-                
-                // Calculate safe bounds accounting for scaled button size
+                // Calculate safe bounds for center position
                 const minX = marginX;
                 const maxX = window.innerWidth - marginX;
                 const minY = marginY;
                 const maxY = window.innerHeight - marginY;
                 
-                // Ensure we have valid bounds
-                const safeMaxX = Math.max(maxX, minX + 50);
-                const safeMaxY = Math.max(maxY, minY + 50);
+                // Ensure we have valid bounds (in case screen is very small)
+                const safeMaxX = Math.max(maxX, minX + 20);
+                const safeMaxY = Math.max(maxY, minY + 20);
                 
-                // Generate random position within safe bounds (center position)
+                // Generate random position within safe bounds
                 const randomX = minX + Math.random() * (safeMaxX - minX);
                 const randomY = minY + Math.random() * (safeMaxY - minY);
                 
