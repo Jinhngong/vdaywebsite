@@ -960,12 +960,12 @@
                 align-items: center !important;
             }
             
-            /* Password screen - consistently centered */
+            /* Password screen - stays centered with keyboard open */
             .password-screen {
-                position: absolute !important;
-                top: 50% !important;
+                position: fixed !important;
+                top: 280px !important;
                 left: 50% !important;
-                transform: translate(-50%, -50%) !important;
+                transform: translateX(-50%) !important;
                 margin: 0 !important;
             }
 
@@ -981,11 +981,11 @@
             
             /* Letter box specifically - compact size, not full screen */
             .letter-box {
-                max-width: 340px !important;
-                width: 88% !important;
-                padding: 20px 15px !important;
+                max-width: 300px !important;
+                width: 82% !important;
+                padding: 18px 15px !important;
                 min-height: auto !important;
-                max-height: 85vh !important;
+                max-height: 75vh !important;
                 position: relative !important;
             }
             .password-screen h1, .question-box h1 {
@@ -1008,11 +1008,14 @@
             .no-btn {
                 position: relative !important;
                 z-index: 100 !important;
+                max-width: calc(100vw - 80px) !important; /* Prevent going off screen */
             }
             
-            /* When no button moves, it becomes fixed */
+            /* When no button moves, it becomes fixed but stays within viewport */
             .no-btn[style*="position: fixed"] {
                 z-index: 9999 !important;
+                min-width: 80px !important; /* Ensure it stays clickable */
+                min-height: 35px !important;
             }
 
             /* Envelope scaled down for mobile */
@@ -1066,22 +1069,14 @@
                 transform: translateY(40px) !important;
             }
 
-            /* Envelope wrapper height for mobile - matches smaller letter-box */
+            /* Envelope wrapper height for mobile - more compact */
             .envlope-wrapper {
-                height: 450px !important;
-                margin-top: 15px !important;
+                height: 410px !important;
+                margin-top: 10px !important;
                 width: 100% !important;
-                max-width: 340px !important;
+                max-width: 300px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
-            }
-
-            /* Letter box container fix */
-            .letter-box {
-                min-height: auto !important;
-                max-height: none !important;
-                overflow: visible !important;
-                height: auto !important;
             }
 
             /* Text sizing for mobile - dynamic and properly spaced */
@@ -1264,8 +1259,8 @@
             }
 
             .container {
-                width: 90% !important; /* Matches the other containers */
-                max-width: 420px !important;
+                width: 85% !important;
+                max-width: 320px !important;
                 z-index: 10;           /* Keeps text in front of images */
             }
         }
@@ -1501,25 +1496,31 @@
             // Make No button and text smaller
             noButtonSize = Math.max(0.3, noButtonSize - 0.1);
             
-            // Calculate safe boundaries with proper margins
+            // Get button dimensions BEFORE scaling for accurate boundary calculation
             const btnRect = noBtn.getBoundingClientRect();
-            const btnWidth = btnRect.width;
-            const btnHeight = btnRect.height;
-            const margin = 40; // Increased margin for safety
+            const btnWidth = btnRect.width * noButtonSize; // Account for scale
+            const btnHeight = btnRect.height * noButtonSize; // Account for scale
+            const margin = 60; // Increased margin for better safety on mobile
             
+            // Calculate safe boundaries
             const maxX = window.innerWidth - btnWidth - margin;
             const maxY = window.innerHeight - btnHeight - margin;
             const minX = margin;
-            const minY = margin;
+            const minY = margin + 100; // Extra margin from top to avoid header
+            
+            // Ensure max values are greater than min values
+            const safeMaxX = Math.max(maxX, minX + 50);
+            const safeMaxY = Math.max(maxY, minY + 50);
             
             // Generate random position within safe boundaries
-            const randomX = Math.random() * (maxX - minX) + minX;
-            const randomY = Math.random() * (maxY - minY) + minY;
+            const randomX = Math.random() * (safeMaxX - minX) + minX;
+            const randomY = Math.random() * (safeMaxY - minY) + minY;
             
             noBtn.style.position = 'fixed';
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
             noBtn.style.transform = `scale(${noButtonSize})`;
+            noBtn.style.transformOrigin = 'center center';
             
             // Make Yes button and text bigger while keeping centered
             yesButtonSize += 0.1;
