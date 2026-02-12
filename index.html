@@ -1490,60 +1490,62 @@
         // FIXED: Move "No" button away with text scaling, STAYS ON SCREEN
         let noButtonSize = 1;
         let yesButtonSize = 1;
+        let buttonContainer = null;
+
+        // Create invisible container on first call
+        function createButtonContainer() {
+            if (!buttonContainer) {
+                buttonContainer = document.createElement('div');
+                buttonContainer.id = 'noButtonContainer';
+                buttonContainer.style.position = 'fixed';
+                buttonContainer.style.width = '85%';
+                buttonContainer.style.height = '85%';
+                buttonContainer.style.left = '50%';
+                buttonContainer.style.top = '50%';
+                buttonContainer.style.transform = 'translate(-50%, -50%)';
+                buttonContainer.style.pointerEvents = 'none'; // Let clicks pass through
+                buttonContainer.style.zIndex = '999';
+                document.body.appendChild(buttonContainer);
+            }
+            return buttonContainer;
+        }
 
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
             
+            // Create container if it doesn't exist
+            const container = createButtonContainer();
+            
+            // Move button into container on first call
+            if (noBtn.parentElement !== container) {
+                container.appendChild(noBtn);
+                noBtn.style.position = 'absolute'; // Change to absolute within container
+                noBtn.style.pointerEvents = 'auto'; // Button itself is clickable
+            }
+            
             // Keep button at visible size (don't let it disappear)
             noButtonSize = Math.max(0.7, noButtonSize - 0.05);
             
-            // Get actual button dimensions
-            const rect = noBtn.getBoundingClientRect();
-            const buttonWidth = rect.width;
-            const buttonHeight = rect.height;
+            // Get container and button dimensions
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+            const buttonWidth = noBtn.offsetWidth * noButtonSize; // Account for scale
+            const buttonHeight = noBtn.offsetHeight * noButtonSize;
             
-            // Get viewport center
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
+            // Calculate safe positioning range within container
+            // Random position ensuring button stays fully inside
+            const maxLeft = containerWidth - buttonWidth;
+            const maxTop = containerHeight - buttonHeight;
             
-            // Define the allowed area (80% of viewport, centered)
-            const allowedWidth = window.innerWidth * 0.8;
-            const allowedHeight = window.innerHeight * 0.8;
+            const randomLeft = Math.random() * maxLeft;
+            const randomTop = Math.random() * maxTop;
             
-            // Calculate boundaries of the 80% central area
-            const boxMinX = centerX - (allowedWidth / 2);
-            const boxMaxX = centerX + (allowedWidth / 2);
-            const boxMinY = centerY - (allowedHeight / 2);
-            const boxMaxY = centerY + (allowedHeight / 2);
-            
-            // Account for button size (since we use translate(-50%, -50%))
-            // Use current button dimensions to ensure it stays within bounds
-            const halfWidth = buttonWidth / 2;
-            const halfHeight = buttonHeight / 2;
-            
-            // Safe positioning area (keep button fully inside the 80% box)
-            const minX = boxMinX + halfWidth;
-            const maxX = boxMaxX - halfWidth;
-            const minY = boxMinY + halfHeight;
-            const maxY = boxMaxY - halfHeight;
-            
-            // Ensure we have valid ranges
-            const safeMinX = Math.max(minX, halfWidth);
-            const safeMaxX = Math.min(maxX, window.innerWidth - halfWidth);
-            const safeMinY = Math.max(minY, halfHeight);
-            const safeMaxY = Math.min(maxY, window.innerHeight - halfHeight);
-            
-            // Generate random position within the safe area
-            const randomX = safeMinX + Math.random() * (safeMaxX - safeMinX);
-            const randomY = safeMinY + Math.random() * (safeMaxY - safeMinY);
-            
-            // Apply positioning
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-            noBtn.style.transform = `translate(-50%, -50%) scale(${noButtonSize})`;
-            noBtn.style.transformOrigin = 'center center';
+            // Apply positioning (top-left corner, no translate needed)
+            noBtn.style.left = randomLeft + 'px';
+            noBtn.style.top = randomTop + 'px';
+            noBtn.style.transform = `scale(${noButtonSize})`;
+            noBtn.style.transformOrigin = 'top left'; // Scale from top-left corner
             
             // Make Yes button bigger while keeping centered
             yesButtonSize += 0.1;
@@ -1555,6 +1557,15 @@
         function handleYes() {
             document.getElementById('questionScreen').style.display = 'none';
             document.getElementById('loveLetterScreen').style.display = 'block';
+            
+            // Hide the No button and its container
+            const noBtn = document.getElementById('noBtn');
+            if (noBtn) {
+                noBtn.style.display = 'none';
+            }
+            if (buttonContainer) {
+                buttonContainer.style.display = 'none';
+            }
             
             // Create natural heart explosion
             const heartTypes = ['♡', '💕', '💖', '💗', '❤️', '💝'];
