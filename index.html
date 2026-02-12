@@ -1495,48 +1495,48 @@
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
             
-            // Decrease button size
-            noButtonSize = Math.max(0.3, noButtonSize - 0.1);
+            // Keep button at visible size (don't let it disappear)
+            noButtonSize = Math.max(0.7, noButtonSize - 0.05);
             
             // Get actual button dimensions
             const rect = noBtn.getBoundingClientRect();
             const buttonWidth = rect.width;
             const buttonHeight = rect.height;
             
-            // Calculate scaled dimensions (after the new scale is applied)
-            const currentScale = noButtonSize + 0.1;
-            const scaledWidth = (buttonWidth / currentScale) * noButtonSize;
-            const scaledHeight = (buttonHeight / currentScale) * noButtonSize;
-            
             // Get viewport center
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             
-            // Define the allowed area (60% of viewport, centered)
-            const allowedWidth = window.innerWidth * 0.6;
-            const allowedHeight = window.innerHeight * 0.6;
+            // Define the allowed area (80% of viewport, centered)
+            const allowedWidth = window.innerWidth * 0.8;
+            const allowedHeight = window.innerHeight * 0.8;
             
-            // Calculate boundaries of the 60% central area
-            // These are the edges of the box
+            // Calculate boundaries of the 80% central area
             const boxMinX = centerX - (allowedWidth / 2);
             const boxMaxX = centerX + (allowedWidth / 2);
             const boxMinY = centerY - (allowedHeight / 2);
             const boxMaxY = centerY + (allowedHeight / 2);
             
             // Account for button size (since we use translate(-50%, -50%))
-            // The button extends half its size in each direction from its center point
-            const halfWidth = scaledWidth / 2;
-            const halfHeight = scaledHeight / 2;
+            // Use current button dimensions to ensure it stays within bounds
+            const halfWidth = buttonWidth / 2;
+            const halfHeight = buttonHeight / 2;
             
-            // Safe positioning area (keep button fully inside the 60% box)
+            // Safe positioning area (keep button fully inside the 80% box)
             const minX = boxMinX + halfWidth;
             const maxX = boxMaxX - halfWidth;
             const minY = boxMinY + halfHeight;
             const maxY = boxMaxY - halfHeight;
             
+            // Ensure we have valid ranges
+            const safeMinX = Math.max(minX, halfWidth);
+            const safeMaxX = Math.min(maxX, window.innerWidth - halfWidth);
+            const safeMinY = Math.max(minY, halfHeight);
+            const safeMaxY = Math.min(maxY, window.innerHeight - halfHeight);
+            
             // Generate random position within the safe area
-            const randomX = minX + Math.random() * (maxX - minX);
-            const randomY = minY + Math.random() * (maxY - minY);
+            const randomX = safeMinX + Math.random() * (safeMaxX - safeMinX);
+            const randomY = safeMinY + Math.random() * (safeMaxY - safeMinY);
             
             // Apply positioning
             noBtn.style.position = 'fixed';
