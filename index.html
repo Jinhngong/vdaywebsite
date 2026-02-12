@@ -979,13 +979,13 @@
                 box-sizing: border-box !important;
             }
             
-            /* Letter box specifically - sized for bigger envelope */
+            /* Letter box specifically - SMALLER for mobile with margins */
             .letter-box {
-                max-width: 420px !important; /* Increased from 360px */
-                width: 90% !important;
-                padding: 20px 18px 75px 18px !important; /* More bottom padding for buttons */
+                max-width: 360px !important; /* Reduced from 420px for margins */
+                width: 85% !important; /* Reduced from 90% to leave margins */
+                padding: 15px 12px 60px 12px !important; /* Reduced padding */
                 min-height: auto !important;
-                max-height: 85vh !important;
+                max-height: 90vh !important;
                 position: relative !important;
             }
             .password-screen h1, .question-box h1 {
@@ -1018,149 +1018,149 @@
                 min-height: 35px !important;
             }
 
-            /* Envelope scaled UP for mobile - bigger for readability */
+            /* Envelope SMALLER for mobile with margins */
             #envelope {
-                width: 300px !important; /* Increased from 240px */
-                height: 194px !important; /* Proportionally increased from 155px */
+                width: 240px !important; /* Reduced from 300px for margins */
+                height: 155px !important; /* Proportionally reduced from 194px */
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
 
-            /* Flap properly scaled for 300x194 envelope */
+            /* Flap properly scaled for 240x155 envelope */
             .flap {
-                border-left: 150px solid transparent !important;
-                border-right: 150px solid transparent !important;
-                border-bottom: 89px solid transparent !important;
-                border-top: 105px solid #ffb3c1 !important;
+                border-left: 120px solid transparent !important;
+                border-right: 120px solid transparent !important;
+                border-bottom: 71px solid transparent !important;
+                border-top: 84px solid #ffb3c1 !important;
             }
 
-            /* Pocket properly scaled for 300x194 envelope */
+            /* Pocket properly scaled for 240x155 envelope */
             .pocket {
-                border-left: 150px solid #ffc9d4 !important;
-                border-right: 150px solid #ffc9d4 !important;
-                border-bottom: 97px solid #ffe5ec !important;
-                border-top: 97px solid transparent !important;
+                border-left: 120px solid #ffc9d4 !important;
+                border-right: 120px solid #ffc9d4 !important;
+                border-bottom: 78px solid #ffe5ec !important;
+                border-top: 78px solid transparent !important;
             }
 
-            /* Letter container for mobile */
+            /* Letter container for mobile - adjusted for 240px envelope */
             .letter-container {
-                top: -380px !important; /* Increased slide distance */
-                height: 574px !important; /* 380px slide + 194px envelope height */
+                top: -280px !important; /* Slide distance */
+                height: 435px !important; /* 280px slide + 155px envelope height */
             }
 
-            /* Letter sizing and position for mobile */
+            /* Letter sizing and position for mobile - SHORTER to eliminate gaps */
             .letter {
                 width: 88% !important;
-                max-width: 264px !important; /* 88% of 300px envelope */
-                height: 500px !important; /* Taller for bigger envelope but not too long */
-                top: 388px !important; /* 380px offset + 8px from envelope top */
-                padding: 14px 12px !important;
+                max-width: 211px !important; /* 88% of 240px envelope */
+                height: 350px !important; /* REDUCED from 500px to fix gaps */
+                top: 288px !important; /* 280px offset + 8px from envelope top */
+                padding: 12px 10px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
 
             /* Mobile slide distance */
             .open .letter {
-                transform: translateY(-380px) !important; /* Match new slide distance */
+                transform: translateY(-280px) !important; /* Match new slide distance */
             }
 
-            /* Envelope moves down more on mobile to reveal "from: Jin" */
+            /* Envelope moves down on mobile to reveal "From: Jin" */
             #envelope.open {
-                transform: translateY(120px) !important; /* Increased for bigger envelope */
+                transform: translateY(100px) !important; /* Adjusted for smaller envelope */
             }
 
-            /* Envelope wrapper height for mobile - sized for bigger envelope */
+            /* Envelope wrapper height for mobile - sized for smaller envelope */
             .envlope-wrapper {
-                height: 480px !important; /* Increased for bigger envelope */
+                height: 420px !important; /* Adjusted for smaller envelope */
                 margin-top: 8px !important;
                 width: 100% !important;
-                max-width: 420px !important; /* Increased to accommodate bigger envelope */
+                max-width: 360px !important; /* Reduced to leave margins */
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
 
-            /* Text sizing for mobile - bigger for readability */
+            /* Text sizing for mobile - PROPERLY SCALED for smaller envelope */
             .words {
-                font-size: 0.80rem !important; /* Increased from 0.70rem */
-                line-height: 1.35 !important;
-                left: 7% !important;
-                width: 86% !important;
+                font-size: 0.68rem !important; /* Properly scaled down */
+                line-height: 1.3 !important;
+                left: 6% !important;
+                width: 88% !important; /* Matches letter width, no gaps on right */
             }
 
             .words.line1 {
-                font-size: 0.68rem !important; /* Increased from 0.60rem */
-                top: 2.5% !important;
+                font-size: 0.58rem !important;
+                top: 3% !important;
             }
 
             .words.line2 {
-                font-size: 0.80rem !important; /* Increased from 0.70rem */
-                top: 7.5% !important;
+                font-size: 0.68rem !important;
+                top: 9% !important;
             }
             
             .words.line3 {
-                font-size: 0.80rem !important;
-                top: 12% !important;
+                font-size: 0.68rem !important;
+                top: 14% !important;
             }
             
             .words.line4 {
-                font-size: 0.80rem !important;
-                top: 16.5% !important;
+                font-size: 0.68rem !important;
+                top: 19% !important;
             }
             
             .words.line5 {
-                font-size: 0.80rem !important;
-                top: 21% !important;
+                font-size: 0.68rem !important;
+                top: 24% !important;
             }
             
             .words.line6 {
-                font-size: 0.80rem !important;
-                top: 25.5% !important;
+                font-size: 0.68rem !important;
+                top: 29% !important;
             }
             
             .words.line7 {
-                font-size: 0.80rem !important;
-                top: 30% !important;
+                font-size: 0.68rem !important;
+                top: 34% !important;
             }
             
             .words.line8 {
-                font-size: 0.80rem !important;
-                top: 35% !important;
+                font-size: 0.68rem !important;
+                top: 39% !important;
             }
             
             .words.line9 {
-                font-size: 0.80rem !important;
-                top: 39.5% !important;
-            }
-            
-            .words.line10 {
-                font-size: 0.80rem !important;
+                font-size: 0.68rem !important;
                 top: 44% !important;
             }
             
+            .words.line10 {
+                font-size: 0.68rem !important;
+                top: 49% !important;
+            }
+            
             .words.line11 {
-                font-size: 0.80rem !important;
-                top: 48.5% !important;
+                font-size: 0.68rem !important;
+                top: 54% !important;
             }
             
             .words.line12 {
-                font-size: 0.80rem !important;
-                top: 53% !important;
+                font-size: 0.68rem !important;
+                top: 59% !important;
             }
 
             .words.line13 {
-                font-size: 0.80rem !important;
-                top: 62% !important;
+                font-size: 0.68rem !important;
+                top: 70% !important; /* "I love you" line - closer to From */
             }
             
             .words.line14 {
-                font-size: 0.68rem !important; /* Increased from 0.60rem */
-                top: 78% !important; /* Moved higher to ensure visibility */
-                right: 7% !important;
+                font-size: 0.58rem !important;
+                top: 88% !important; /* "From: Jin" - near bottom, fully visible */
+                right: 6% !important;
             }
 
-            /* Hearts from envelope - adjust for bigger envelope */
+            /* Hearts from envelope - adjust for smaller 240x155 envelope */
             .hearts {
-                top: 96px !important; /* Scaled up from 77px for 300x194 envelope */
+                top: 77px !important; /* Scaled for 240x155 envelope */
             }
 
             .heart {
@@ -1494,37 +1494,37 @@
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
-            const noText = document.getElementById('noText');
-            const yesText = document.getElementById('yesText');
-            const yesHeart = document.getElementById('yesHeart');
             
-            // Make No button and text smaller
+            // CRITICAL: Calculate NEXT scale BEFORE positioning
             noButtonSize = Math.max(0.3, noButtonSize - 0.1);
             
             // Detect if mobile
             const isMobile = window.innerWidth <= 768;
             
+            // Base button dimensions (before any scaling)
+            const baseWidth = 130;  // min-width from CSS
+            const baseHeight = 50;
+            
+            // Calculate dimensions at NEXT scale (the one we're about to apply)
+            const nextScaledWidth = baseWidth * noButtonSize;
+            const nextScaledHeight = baseHeight * noButtonSize;
+            
             if (isMobile) {
-                // MOBILE: Get actual button dimensions
-                const rect = noBtn.getBoundingClientRect();
-                const scaledWidth = rect.width;
-                const scaledHeight = rect.height;
+                // MOBILE: Use NEXT scaled dimensions for safe bounds
+                const marginX = Math.max(50, nextScaledWidth * 0.6);
+                const marginY = Math.max(70, nextScaledHeight * 0.6);
                 
-                // Use larger margins for safety - ensure fully visible and clickable
-                const marginX = Math.max(40, scaledWidth); // At least 40px or button width
-                const marginY = Math.max(60, scaledHeight); // At least 60px or button height
-                
-                // Calculate safe bounds accounting for scaled button size
+                // Calculate safe bounds (center position of button)
                 const minX = marginX;
                 const maxX = window.innerWidth - marginX;
                 const minY = marginY;
                 const maxY = window.innerHeight - marginY;
                 
-                // Ensure we have valid bounds
+                // Ensure valid bounds
                 const safeMaxX = Math.max(maxX, minX + 50);
                 const safeMaxY = Math.max(maxY, minY + 50);
                 
-                // Generate random position within safe bounds (center position)
+                // Generate random position within safe bounds
                 const randomX = minX + Math.random() * (safeMaxX - minX);
                 const randomY = minY + Math.random() * (safeMaxY - minY);
                 
@@ -1534,18 +1534,14 @@
                 noBtn.style.transform = `translate(-50%, -50%) scale(${noButtonSize})`;
                 noBtn.style.transformOrigin = 'center center';
             } else {
-                // DESKTOP: Original logic
-                const baseWidth = 100;
-                const baseHeight = 50;
-                const scaledWidth = baseWidth * noButtonSize;
-                const scaledHeight = baseHeight * noButtonSize;
+                // DESKTOP: Use NEXT scaled dimensions for safe bounds
                 const margin = 60;
                 const topMargin = 100;
                 
-                const minX = margin + (scaledWidth / 2);
-                const maxX = window.innerWidth - margin - (scaledWidth / 2);
-                const minY = topMargin + (scaledHeight / 2);
-                const maxY = window.innerHeight - margin - (scaledHeight / 2);
+                const minX = margin + (nextScaledWidth / 2);
+                const maxX = window.innerWidth - margin - (nextScaledWidth / 2);
+                const minY = topMargin + (nextScaledHeight / 2);
+                const maxY = window.innerHeight - margin - (nextScaledHeight / 2);
                 
                 const safeMaxX = Math.max(maxX, minX + 50);
                 const safeMaxY = Math.max(maxY, minY + 50);
@@ -1560,7 +1556,7 @@
                 noBtn.style.transformOrigin = 'center center';
             }
             
-            // Make Yes button and text bigger while keeping centered
+            // Make Yes button bigger while keeping centered
             yesButtonSize += 0.1;
             yesBtn.style.transform = `scale(${yesButtonSize})`;
             yesBtn.style.transformOrigin = 'center center';
