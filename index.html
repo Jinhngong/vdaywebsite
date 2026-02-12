@@ -756,7 +756,7 @@
         }
 
         .words.line14 {
-            top: 96%;
+            top: 92%;
             right: 2%;
             left: auto;
             width: auto;
@@ -1498,40 +1498,45 @@
             // Decrease button size
             noButtonSize = Math.max(0.3, noButtonSize - 0.1);
             
-            // Get ACTUAL current button dimensions from DOM (before we scale it)
+            // Get actual button dimensions
             const rect = noBtn.getBoundingClientRect();
-            const currentWidth = rect.width;
-            const currentHeight = rect.height;
+            const buttonWidth = rect.width;
+            const buttonHeight = rect.height;
             
-            // Calculate dimensions AFTER the new scale is applied
-            // We need to reverse the current scale to get base size, then apply new scale
-            const currentScale = noButtonSize + 0.1; // what it was before we decreased it
-            const baseWidth = currentWidth / currentScale;
-            const baseHeight = currentHeight / currentScale;
+            // Calculate scaled dimensions (after the new scale is applied)
+            const currentScale = noButtonSize + 0.1;
+            const scaledWidth = (buttonWidth / currentScale) * noButtonSize;
+            const scaledHeight = (buttonHeight / currentScale) * noButtonSize;
             
-            // New scaled dimensions
-            const scaledWidth = baseWidth * noButtonSize;
-            const scaledHeight = baseHeight * noButtonSize;
+            // Get viewport center
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
             
-            // Since we use translate(-50%, -50%), the button extends half its size in each direction
-            // So we need at least half the button size as margin from each edge
+            // Define the allowed area (60% of viewport, centered)
+            const allowedWidth = window.innerWidth * 0.6;
+            const allowedHeight = window.innerHeight * 0.6;
+            
+            // Calculate boundaries of the 60% central area
+            // These are the edges of the box
+            const boxMinX = centerX - (allowedWidth / 2);
+            const boxMaxX = centerX + (allowedWidth / 2);
+            const boxMinY = centerY - (allowedHeight / 2);
+            const boxMaxY = centerY + (allowedHeight / 2);
+            
+            // Account for button size (since we use translate(-50%, -50%))
+            // The button extends half its size in each direction from its center point
             const halfWidth = scaledWidth / 2;
             const halfHeight = scaledHeight / 2;
             
-            // Add extra safety margin
-            const safetyMargin = 20;
+            // Safe positioning area (keep button fully inside the 60% box)
+            const minX = boxMinX + halfWidth;
+            const maxX = boxMaxX - halfWidth;
+            const minY = boxMinY + halfHeight;
+            const maxY = boxMaxY - halfHeight;
             
-            // Calculate boundaries for the CENTER POINT of the button
-            // (because translate(-50%, -50%) centers it at the left/top position)
-            const minX = halfWidth + safetyMargin;
-            const maxX = window.innerWidth - halfWidth - safetyMargin;
-            const minY = halfHeight + safetyMargin;
-            const maxY = window.innerHeight - halfHeight - safetyMargin;
-            
-            // Generate random position within safe bounds
-            // Clamp to ensure we're always within bounds
-            const randomX = Math.min(Math.max(minX + Math.random() * (maxX - minX), minX), maxX);
-            const randomY = Math.min(Math.max(minY + Math.random() * (maxY - minY), minY), maxY);
+            // Generate random position within the safe area
+            const randomX = minX + Math.random() * (maxX - minX);
+            const randomY = minY + Math.random() * (maxY - minY);
             
             // Apply positioning
             noBtn.style.position = 'fixed';
