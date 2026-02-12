@@ -932,18 +932,16 @@
                 display: none !important;
             }
 
-            /* Screen containers - only apply flex when NOT hidden */
-            .password-screen:not(.hidden), 
-            .question-screen:not(.hidden), 
-            .love-letter-screen:not(.hidden) {
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                min-height: 100vh !important;
-                width: 100% !important;
-                max-width: 100vw !important;
-                overflow-x: hidden !important;
-                padding: 20px 0 !important;
+            /* CRITICAL FIX: Ensure screens stay hidden until explicitly shown */
+            .question-screen,
+            .love-letter-screen {
+                display: none !important;
+            }
+            
+            /* Only show screens when JavaScript explicitly sets display: block */
+            .question-screen[style*="display: block"],
+            .love-letter-screen[style*="display: block"] {
+                display: block !important;
             }
 
             /* Container fixes for mobile */
