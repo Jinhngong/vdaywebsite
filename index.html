@@ -960,10 +960,13 @@
                 align-items: center !important;
             }
             
-            /* Password screen also fixed and centered */
+            /* Password screen - consistently centered */
             .password-screen {
-                position: relative !important;
-                margin: auto !important;
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                margin: 0 !important;
             }
 
             /* Container fixes for mobile - wider and better margins */
@@ -976,10 +979,14 @@
                 box-sizing: border-box !important;
             }
             
-            /* Letter box specifically - smaller container */
+            /* Letter box specifically - compact size, not full screen */
             .letter-box {
-                max-width: 360px !important;
-                padding: 25px 20px !important;
+                max-width: 340px !important;
+                width: 88% !important;
+                padding: 20px 15px !important;
+                min-height: auto !important;
+                max-height: 85vh !important;
+                position: relative !important;
             }
             .password-screen h1, .question-box h1 {
                 font-size: 1.6em !important;
@@ -994,13 +1001,17 @@
             .question-box {
                 min-height: auto !important;
                 max-height: 90vh !important;
-                overflow-y: auto !important;
                 overflow: visible !important; /* Allow no button to escape */
             }
             
-            /* No button can jump anywhere on screen */
+            /* No button can jump anywhere on screen but starts in proper position */
             .no-btn {
-                position: fixed !important;
+                position: relative !important;
+                z-index: 100 !important;
+            }
+            
+            /* When no button moves, it becomes fixed */
+            .no-btn[style*="position: fixed"] {
                 z-index: 9999 !important;
             }
 
@@ -1057,10 +1068,10 @@
 
             /* Envelope wrapper height for mobile - matches smaller letter-box */
             .envlope-wrapper {
-                height: 480px !important;
-                margin-top: 20px !important;
+                height: 450px !important;
+                margin-top: 15px !important;
                 width: 100% !important;
-                max-width: 360px !important;
+                max-width: 340px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
@@ -1069,6 +1080,8 @@
             .letter-box {
                 min-height: auto !important;
                 max-height: none !important;
+                overflow: visible !important;
+                height: auto !important;
             }
 
             /* Text sizing for mobile - dynamic and properly spaced */
