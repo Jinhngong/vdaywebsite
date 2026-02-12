@@ -110,49 +110,73 @@ find the words around lines ~1137-1149 in `index.html`:
 
 ### 📏 adjust paper size and slide distance
 
+**DESKTOP VERSION:**
 find the CSS variables at the **top of the CSS section** (around line 563):
 
 ```css
 :root {
-    --letter-height: 500px;              /* Total paper height */
-    --letter-slide-distance: 400px;      /* How far paper slides up (default increased to 400px) */
+    --letter-height: 400px;              /* Total paper height */
+    --letter-slide-distance: 400px;      /* How far paper slides up */
 }
 ```
 
-**paper slide distance increased to 400px** (was 320px) to show more text including the "From:" line!
-
-**envelope automatically moves down when opening** to reveal even more of the letter (60px on desktop, 40px on mobile)
-
-**mobile automatically scales differently:**
-- envelope: 220x140px (vs 280x180px desktop)
-- flap: 77px top (vs 98px desktop) - proportionally scaled
-- pocket: 71px top/bottom (vs 90px desktop) - proportionally scaled
-- slide distance: 250px (vs 400px desktop)
-- text size: 0.7rem (vs 0.95rem desktop)
-- container max-width: 380px (vs 600px desktop)
-- all optimized for small screens with no horizontal scrolling!
-
-**to make the paper longer:**
+**to make the desktop paper longer:**
 ```css
---letter-height: 600px; /* Increase for taller paper with more text lines */
+--letter-height: 500px; /* Increase for taller paper with more text lines */
 ```
-- increase this if you need more space for text
-- paper will be taller and can hold more message lines
 
-**to make the paper slide out further:**
+**to make the desktop paper slide out further:**
 ```css
 --letter-slide-distance: 450px; /* Larger = slides further out */
 ```
-- larger number (e.g., 450px) = paper slides up more, more text visible
-- smaller number (e.g., 350px) = paper doesn't slide as far
 
-**example for a much longer letter:**
+---
+
+### 📱 **MOBILE ONLY: How to change paper length**
+
+**IMPORTANT:** Mobile has completely separate sizing from desktop! To change the mobile paper length, find the mobile media query section (around line 1050) and look for this section:
+
 ```css
-:root {
-    --letter-height: 700px;              /* Taller paper for more text */
-    --letter-slide-distance: 550px;      /* Slides way up - shows more of the long paper */
+@media (max-width: 768px) {
+    /* ... other mobile styles ... */
+    
+    /* Letter sizing and position for mobile - SHORTER to eliminate gaps */
+    .letter {
+        width: 88% !important;
+        max-width: 211px !important; /* 88% of 240px envelope */
+        height: 350px !important; /* <--- THIS IS THE MOBILE PAPER HEIGHT */
+        top: 288px !important; /* 280px offset + 8px from envelope top */
+        padding: 12px 10px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 }
 ```
+
+**To change the mobile paper length, modify the `height` property:**
+
+**Current (default):**
+```css
+height: 350px !important; /* Compact size - no gaps between text and From: Jin */
+```
+
+**For longer mobile paper (if you need more space):**
+```css
+height: 400px !important; /* Longer paper - use if you have more text lines */
+```
+
+**For shorter mobile paper (if you want it more compact):**
+```css
+height: 300px !important; /* More compact */
+```
+
+**TIPS FOR MOBILE PAPER LENGTH:**
+- **350px (default)** = Perfect for the current letter with no big gaps
+- **400px** = Use if you have more text lines or longer paragraphs
+- **300px** = Use if you have shorter text and want a more compact look
+- The mobile paper is intentionally smaller than desktop to fit better on phone screens
+- Mobile uses 240x155px envelope (vs 280x180px desktop) to leave margins on screen edges
+- Mobile text is 0.68rem (vs 0.95rem desktop) to match the smaller envelope size
 
 ### adjust text spacing on paper
 
@@ -262,10 +286,20 @@ three decorative images move with your cursor or device tilt:
 - **when closed**: paper sits inside envelope
 - **when opened**: 
   1. flap rotates back (goes to background)
-  2. **envelope moves down 60px** (40px on mobile) to reveal more text
-  3. paper slides up 400px from inside the envelope
+  2. **envelope moves down 80px desktop / 100px mobile** to reveal more text
+  3. paper slides up 400px (desktop) / 280px (mobile) from inside the envelope
   4. paper emerges from the pocket opening
   5. "From:" signature at bottom is now fully visible!
+
+**mobile optimizations (NEW!):**
+- envelope: 240x155px (vs 280x180px desktop) - **smaller with margins**
+- flap: 84px top (vs 98px desktop) - proportionally scaled
+- pocket: 78px top/bottom (vs 90px desktop) - proportionally scaled
+- slide distance: 280px (vs 400px desktop)
+- **paper height: 350px (adjustable!)** - no big gaps
+- text size: 0.68rem (vs 0.95rem desktop) - properly scaled
+- container max-width: 360px (vs 600px desktop) - leaves screen margins
+- all optimized for small screens with no horizontal scrolling!
 
 **seamless paper clipping:**
 - the paper sits **inside the envelope** when closed (like a real letter)
@@ -286,8 +320,8 @@ three decorative images move with your cursor or device tilt:
 - `--letter-slide-distance`: how far paper extends when opened (default 400px - increased!)
 
 **envelope downward movement:**
-- automatically moves down 60px on desktop when opened
-- automatically moves down 40px on mobile when opened
+- automatically moves down 80px on desktop when opened
+- automatically moves down 100px on mobile when opened
 - smooth transition synchronized with letter slide animation
 - creates more space to show the full letter including "From:" signature
 
@@ -346,8 +380,8 @@ a: increase `--letter-slide-distance` (e.g., 450px instead of 400px).
 **q: need longer paper for more text?**  
 a: increase `--letter-height` (e.g., 600px) and increase `--letter-slide-distance` (e.g., 500px) to show the longer paper.
 
-**q: "no" button going off screen?**  
-a: this is fixed! the button calculates safe boundaries with 40px margins. if it still happens, refresh the page.
+**q: "no" button disappearing off screen or after first click?**  
+a: **FIXED!** The button now calculates safe boundaries based on the NEXT scale factor (not current size), so it properly stays visible throughout all clicks on both desktop and mobile. The key fix was calculating the button's future size BEFORE positioning it, preventing it from going off-screen.
 
 **q: envelope not opening?**  
 a: make sure javascript is enabled in your browser. check the browser console (f12) for any errors.
@@ -355,8 +389,14 @@ a: make sure javascript is enabled in your browser. check the browser console (f
 **q: text too narrow on paper?**  
 a: adjust the `.words` class: decrease `left:` value and increase `width:` value.
 
-**q: mobile envelope looks warped or text visible through gaps?**  
-a: this is now fixed! envelope is scaled to 220x140px on mobile with properly proportioned flap (77px top) and pocket (71px top/bottom).
+**q: mobile envelope too big or too close to screen edges?**  
+a: **FIXED!** Mobile envelope is now 240x155px (smaller) with proper margins. The letter-box container is max-width 360px and 85% width to leave space from screen edges.
+
+**q: mobile letter text has weird gaps on the right side?**  
+a: **FIXED!** Text is now properly scaled to 0.68rem with width: 88% to match the smaller envelope, eliminating gaps on the right.
+
+**q: mobile letter too long causing big gaps between text and "From: Jin"?**  
+a: **FIXED!** Mobile paper height reduced to 350px (from 500px). The "I love you ♡" line is at 70% and "From: Jin" at 88%, eliminating large gaps. You can adjust this in the mobile media query `.letter { height: 350px !important; }` section.
 
 **q: mobile shows all screens at once (password, yes/no, envelope)?**  
 a: this is now fixed! mobile CSS now uses `:not(.hidden)` selector to respect screen switching. only one screen shows at a time.
@@ -407,16 +447,17 @@ this is a **client-side only** website:
 
 ## what's new in this version
 
-✅ **slide distance increased to 400px** (was 320px) - "From:" signature now visible on desktop!  
-✅ **envelope moves down** when opened (60px desktop, 40px mobile) - shows even more text!  
+✅ **"no" button COMPLETELY FIXED** - calculates safe bounds using NEXT scale factor before positioning, stays visible through all clicks on both desktop and mobile!  
+✅ **mobile envelope properly sized** - 240x155px (was 300x194px) with margins from screen edges  
+✅ **mobile letter properly sized** - height reduced to 350px (was 500px), eliminates big gaps  
+✅ **mobile text properly scaled** - 0.68rem font size with 88% width matches smaller envelope, no gaps on right  
+✅ **mobile line positions fixed** - "I love you ♡" at 70%, "From: Jin" at 88%, no large gaps  
+✅ **separate mobile controls** - mobile paper height independently adjustable in media query  
+✅ **desktop unchanged** - desktop version remains perfect, only mobile and button function fixed  
+✅ **slide distance** - 400px desktop, 280px mobile for optimal text visibility  
+✅ **envelope moves down** when opened (80px desktop, 100px mobile)  
 ✅ **multiple password support** - accepts 6 different variations (case-insensitive)  
-✅ **CRITICAL mobile fixes** - fixed all screens showing at once, now properly switches between screens  
-✅ **mobile optimizations** - envelope scaled to 220x140px, slide distance 250px for mobile  
-✅ **mobile text sizing** - 0.7rem fonts prevent overlaps on small screens  
-✅ **mobile containers fixed** - proper centering, no horizontal scrolling, no elongation  
-✅ **mobile envelope proportions** - flap 77px top, pocket 71px top/bottom - properly sealed  
-✅ **screen switching fixed** - password → yes/no → envelope screens now work correctly on mobile  
-✅ **horizontal scroll eliminated** - overflow-x: hidden on html, body, and all containers  
+✅ **proper margins** - mobile containers 85% width, max-width 360px for screen edge spacing  
 
 ## license
 
