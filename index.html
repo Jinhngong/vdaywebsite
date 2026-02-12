@@ -920,11 +920,15 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            /* Prevent horizontal scrolling */
+            /* CRITICAL: Prevent ALL scrolling on mobile */
             body, html {
+                overflow: hidden !important;
                 overflow-x: hidden !important;
+                overflow-y: hidden !important;
                 max-width: 100vw !important;
                 width: 100% !important;
+                height: 100vh !important;
+                position: fixed !important;
             }
 
             /* Ensure hidden class works on mobile */
@@ -944,7 +948,7 @@
                 display: block !important;
             }
 
-            /* Container fixes for mobile */
+            /* Container fixes for mobile - MATCHED WIDTHS */
             .password-screen, .question-box, .letter-box {
                 width: 85% !important;
                 max-width: 380px !important;
@@ -952,6 +956,14 @@
                 padding: 25px 20px !important;
                 z-index: 10;
                 box-sizing: border-box !important;
+            }
+            
+            /* Ensure screen containers fit viewport without causing scroll */
+            .password-screen,
+            .question-screen,
+            .love-letter-screen {
+                max-height: 100vh !important;
+                overflow: visible !important;
             }
             
             .password-screen h1, .question-box h1 {
@@ -963,11 +975,11 @@
                 flex-direction: column !important;
             }
 
-            /* Question box adjustments */
+            /* Question box adjustments - NO SCROLLING */
             .question-box {
                 min-height: auto !important;
-                max-height: 90vh !important;
-                overflow-y: auto !important;
+                max-height: none !important;
+                overflow: visible !important; /* Prevent internal scrolling */
             }
 
             /* Envelope scaled down for mobile */
@@ -1002,10 +1014,11 @@
 
             /* Letter sizing and position for mobile */
             .letter {
-                width: 85% !important;
+                width: 90% !important; /* Match desktop proportion to fix gap */
+                margin-left: 5% !important; /* Center properly */
                 height: 380px !important; /* Shorter for mobile */
                 top: 258px !important; /* 250px offset + 8px from envelope top */
-                padding: 10px 8px !important;
+                padding: 12px 10px !important; /* Adjusted padding for better spacing */
             }
 
             /* Mobile slide distance - less than desktop */
@@ -1018,42 +1031,55 @@
                 transform: translateY(40px) !important;
             }
 
-            /* Envelope wrapper height for mobile */
+            /* Envelope wrapper height for mobile - REDUCED TO PREVENT OVERFLOW */
             .envlope-wrapper {
-                height: 480px !important;
-                margin-top: 20px !important;
+                height: 420px !important; /* Reduced to fit viewport */
+                margin-top: 10px !important; /* Reduced margin */
                 width: 100% !important;
                 max-width: 380px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
+                overflow: visible !important;
             }
 
-            /* Letter box container fix */
+            /* Letter box container fix - NO SCROLLING */
             .letter-box {
                 min-height: auto !important;
                 max-height: none !important;
+                overflow: visible !important; /* Prevent internal scrolling */
             }
 
-            /* Text sizing for mobile to prevent overlaps */
+            /* Text sizing for mobile - DYNAMIC SPACING TO MATCH DESKTOP */
             .words {
-                font-size: 0.7rem !important;
-                line-height: 1.25 !important;
+                font-size: 0.75rem !important; /* Slightly larger for readability */
+                line-height: 1.4 !important; /* Match desktop line-height */
+                margin-bottom: 1px !important; /* Maintain spacing consistency */
             }
 
             .words.line1 {
-                font-size: 0.6rem !important;
+                font-size: 0.65rem !important;
+                font-weight: 600 !important;
+                margin-bottom: 6px !important; /* Match desktop spacing */
             }
 
             .words.line2, .words.line3, .words.line4, .words.line5,
             .words.line6, .words.line7, .words.line8, .words.line9,
             .words.line10, .words.line11, .words.line12 {
-                font-size: 0.7rem !important;
+                font-size: 0.75rem !important;
             }
 
             .words.line13 {
+                font-size: 0.65rem !important;
+                font-weight: 600 !important;
+                margin-top: 10px !important; /* Match desktop spacing */
+            }
+
+            .words.line14 {
                 font-size: 0.6rem !important;
+                font-weight: 500 !important;
+                position: absolute !important;
                 bottom: 5% !important;
-                top: auto !important;
+                left: 10px !important; /* Adjusted for mobile padding */
             }
 
             /* Hearts from envelope - adjust for smaller envelope */
