@@ -983,7 +983,7 @@
             .letter-box {
                 max-width: 360px !important;
                 width: 90% !important;
-                padding: 20px 18px 65px 18px !important; /* Extra bottom padding for buttons */
+                padding: 20px 18px 75px 18px !important; /* More bottom padding for buttons */
                 min-height: auto !important;
                 max-height: 85vh !important;
                 position: relative !important;
@@ -1044,7 +1044,7 @@
 
             /* Letter container for mobile */
             .letter-container {
-                top: -310px !important; /* Increased slide distance for mobile */
+                top: -310px !important; /* Slide distance for mobile */
                 height: 465px !important; /* 310px slide + 155px envelope height */
             }
 
@@ -1052,7 +1052,7 @@
             .letter {
                 width: 88% !important;
                 max-width: 212px !important;
-                height: 460px !important; /* Increased height to fit all text */
+                height: 420px !important; /* Reduced from 460px to fit better */
                 top: 318px !important; /* 310px offset + 8px from envelope top */
                 padding: 12px 10px !important;
                 margin-left: auto !important;
@@ -1064,14 +1064,14 @@
                 transform: translateY(-310px) !important; /* Increased from 280px */
             }
 
-            /* Envelope moves down less on mobile */
+            /* Envelope moves down more on mobile to reveal "from: Jin" */
             #envelope.open {
-                transform: translateY(85px) !important; /* Increased from 70px */
+                transform: translateY(100px) !important; /* Increased from 85px */
             }
 
             /* Envelope wrapper height for mobile - more compact */
             .envlope-wrapper {
-                height: 500px !important; /* Increased for bigger envelope */
+                height: 400px !important; /* Reduced from 500px for better proportions */
                 margin-top: 8px !important;
                 width: 100% !important;
                 max-width: 360px !important;
@@ -1154,7 +1154,7 @@
             
             .words.line14 {
                 font-size: 0.60rem !important;
-                top: 85% !important; /* Positioned to be visible above envelope */
+                top: 80% !important; /* Moved up from 85% to ensure visibility */
                 right: 7% !important;
             }
 
@@ -1185,21 +1185,23 @@
                 box-sizing: border-box !important;
             }
 
-            /* Reset buttons proper spacing */
+            /* Reset buttons proper spacing - SIDE BY SIDE on mobile */
             .reset {
                 display: flex !important;
-                flex-direction: column !important;
-                gap: 10px !important;
+                flex-direction: row !important; /* Changed from column to row */
+                gap: 8px !important; /* Reduced gap for side-by-side */
                 align-items: center !important;
+                justify-content: center !important;
                 margin-top: 15px !important;
                 position: relative !important;
+                flex-wrap: wrap !important; /* Allow wrapping if needed */
             }
 
             .reset button {
                 width: auto !important;
-                min-width: 140px !important;
-                font-size: 0.95em !important;
-                padding: 12px 24px !important;
+                min-width: 110px !important; /* Reduced from 140px for side-by-side fit */
+                font-size: 0.9em !important; /* Slightly smaller */
+                padding: 10px 18px !important; /* Reduced padding */
             }
         }
 
@@ -1503,23 +1505,26 @@
             const isMobile = window.innerWidth <= 768;
             
             if (isMobile) {
-                // MOBILE: Use center-based positioning with radius constraint
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
+                // MOBILE: Calculate button dimensions after scaling
+                const baseWidth = 100;
+                const baseHeight = 50;
+                const scaledWidth = baseWidth * noButtonSize;
+                const scaledHeight = baseHeight * noButtonSize;
                 
-                // Maximum distance from center (radius) - ensures button stays on screen
-                const maxRadius = Math.min(
-                    window.innerWidth / 2 - 60,  // 60px margin from edges
-                    window.innerHeight / 2 - 100  // 100px margin from top/bottom
-                );
+                // Calculate safe bounds accounting for scaled button size
+                const margin = 20; // Minimum margin from edges
+                const minX = margin + (scaledWidth / 2);
+                const maxX = window.innerWidth - margin - (scaledWidth / 2);
+                const minY = margin + (scaledHeight / 2);
+                const maxY = window.innerHeight - margin - (scaledHeight / 2);
                 
-                // Random angle and distance from center
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * maxRadius;
+                // Ensure we have valid bounds
+                const safeMaxX = Math.max(maxX, minX + 10);
+                const safeMaxY = Math.max(maxY, minY + 10);
                 
-                // Calculate position using polar coordinates
-                const randomX = centerX + Math.cos(angle) * distance;
-                const randomY = centerY + Math.sin(angle) * distance;
+                // Generate random position within safe bounds
+                const randomX = minX + Math.random() * (safeMaxX - minX);
+                const randomY = minY + Math.random() * (safeMaxY - minY);
                 
                 noBtn.style.position = 'fixed';
                 noBtn.style.left = randomX + 'px';
