@@ -920,15 +920,11 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            /* CRITICAL: Prevent ALL scrolling on mobile */
+            /* Prevent horizontal scrolling */
             body, html {
-                overflow: hidden !important;
                 overflow-x: hidden !important;
-                overflow-y: hidden !important;
                 max-width: 100vw !important;
                 width: 100% !important;
-                height: 100vh !important;
-                position: fixed !important;
             }
 
             /* Ensure hidden class works on mobile */
@@ -948,7 +944,7 @@
                 display: block !important;
             }
 
-            /* Container fixes for mobile - MATCHED WIDTHS */
+            /* Container fixes for mobile */
             .password-screen, .question-box, .letter-box {
                 width: 85% !important;
                 max-width: 380px !important;
@@ -956,14 +952,6 @@
                 padding: 25px 20px !important;
                 z-index: 10;
                 box-sizing: border-box !important;
-            }
-            
-            /* Ensure screen containers fit viewport without causing scroll */
-            .password-screen,
-            .question-screen,
-            .love-letter-screen {
-                max-height: 100vh !important;
-                overflow: visible !important;
             }
             
             .password-screen h1, .question-box h1 {
@@ -975,11 +963,11 @@
                 flex-direction: column !important;
             }
 
-            /* Question box adjustments - NO SCROLLING */
+            /* Question box adjustments */
             .question-box {
                 min-height: auto !important;
-                max-height: none !important;
-                overflow: visible !important; /* Prevent internal scrolling */
+                max-height: 90vh !important;
+                overflow-y: auto !important;
             }
 
             /* Envelope scaled down for mobile */
@@ -1014,11 +1002,10 @@
 
             /* Letter sizing and position for mobile */
             .letter {
-                width: 90% !important; /* Match desktop proportion to fix gap */
-                margin-left: 5% !important; /* Center properly */
+                width: 85% !important;
                 height: 380px !important; /* Shorter for mobile */
                 top: 258px !important; /* 250px offset + 8px from envelope top */
-                padding: 12px 10px !important; /* Adjusted padding for better spacing */
+                padding: 10px 8px !important;
             }
 
             /* Mobile slide distance - less than desktop */
@@ -1031,55 +1018,42 @@
                 transform: translateY(40px) !important;
             }
 
-            /* Envelope wrapper height for mobile - REDUCED TO PREVENT OVERFLOW */
+            /* Envelope wrapper height for mobile */
             .envlope-wrapper {
-                height: 420px !important; /* Reduced to fit viewport */
-                margin-top: 10px !important; /* Reduced margin */
+                height: 480px !important;
+                margin-top: 20px !important;
                 width: 100% !important;
                 max-width: 380px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
-                overflow: visible !important;
             }
 
-            /* Letter box container fix - NO SCROLLING */
+            /* Letter box container fix */
             .letter-box {
                 min-height: auto !important;
                 max-height: none !important;
-                overflow: visible !important; /* Prevent internal scrolling */
             }
 
-            /* Text sizing for mobile - DYNAMIC SPACING TO MATCH DESKTOP */
+            /* Text sizing for mobile to prevent overlaps */
             .words {
-                font-size: 0.75rem !important; /* Slightly larger for readability */
-                line-height: 1.4 !important; /* Match desktop line-height */
-                margin-bottom: 1px !important; /* Maintain spacing consistency */
+                font-size: 0.7rem !important;
+                line-height: 1.25 !important;
             }
 
             .words.line1 {
-                font-size: 0.65rem !important;
-                font-weight: 600 !important;
-                margin-bottom: 6px !important; /* Match desktop spacing */
+                font-size: 0.6rem !important;
             }
 
             .words.line2, .words.line3, .words.line4, .words.line5,
             .words.line6, .words.line7, .words.line8, .words.line9,
             .words.line10, .words.line11, .words.line12 {
-                font-size: 0.75rem !important;
+                font-size: 0.7rem !important;
             }
 
             .words.line13 {
-                font-size: 0.65rem !important;
-                font-weight: 600 !important;
-                margin-top: 10px !important; /* Match desktop spacing */
-            }
-
-            .words.line14 {
                 font-size: 0.6rem !important;
-                font-weight: 500 !important;
-                position: absolute !important;
                 bottom: 5% !important;
-                left: 10px !important; /* Adjusted for mobile padding */
+                top: auto !important;
             }
 
             /* Hearts from envelope - adjust for smaller envelope */
