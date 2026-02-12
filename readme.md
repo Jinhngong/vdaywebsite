@@ -125,9 +125,12 @@ find the CSS variables at the **top of the CSS section** (around line 563):
 
 **mobile automatically scales differently:**
 - envelope: 220x140px (vs 280x180px desktop)
+- flap: 77px top (vs 98px desktop) - proportionally scaled
+- pocket: 71px top/bottom (vs 90px desktop) - proportionally scaled
 - slide distance: 250px (vs 400px desktop)
-- text size: 0.75rem (vs 0.95rem desktop)
-- all optimized for small screens!
+- text size: 0.7rem (vs 0.95rem desktop)
+- container max-width: 380px (vs 600px desktop)
+- all optimized for small screens with no horizontal scrolling!
 
 **to make the paper longer:**
 ```css
@@ -353,13 +356,19 @@ a: make sure javascript is enabled in your browser. check the browser console (f
 a: adjust the `.words` class: decrease `left:` value and increase `width:` value.
 
 **q: mobile envelope looks warped or text visible through gaps?**  
-a: this is now fixed! envelope is scaled to 220x140px on mobile with properly proportioned flap and pocket.
+a: this is now fixed! envelope is scaled to 220x140px on mobile with properly proportioned flap (77px top) and pocket (71px top/bottom).
+
+**q: mobile shows all screens at once (password, yes/no, envelope)?**  
+a: this is now fixed! mobile CSS now uses `:not(.hidden)` selector to respect screen switching. only one screen shows at a time.
+
+**q: mobile has horizontal scrolling?**  
+a: this is now fixed! `overflow-x: hidden` applied to html, body, and all containers. max-width: 100vw enforced everywhere.
 
 **q: mobile container too long or not centered?**  
-a: this is now fixed! containers are properly centered with max-width: 400px and centered using flexbox.
+a: this is now fixed! containers are max-width: 380px, centered with flexbox, and proper vertical padding (20px).
 
 **q: mobile letter slides too far up?**  
-a: this is now fixed! mobile uses 250px slide distance (vs 400px desktop) and text is sized smaller (0.75rem) to fit properly.
+a: this is now fixed! mobile uses 250px slide distance (vs 400px desktop), letter height 380px, and text 0.7rem to fit properly.
 
 ## tips for the best experience
 
@@ -401,11 +410,13 @@ this is a **client-side only** website:
 ✅ **slide distance increased to 400px** (was 320px) - "From:" signature now visible on desktop!  
 ✅ **envelope moves down** when opened (60px desktop, 40px mobile) - shows even more text!  
 ✅ **multiple password support** - accepts 6 different variations (case-insensitive)  
+✅ **CRITICAL mobile fixes** - fixed all screens showing at once, now properly switches between screens  
 ✅ **mobile optimizations** - envelope scaled to 220x140px, slide distance 250px for mobile  
-✅ **mobile text sizing** - smaller fonts prevent overlaps on small screens  
-✅ **mobile containers fixed** - proper centering and no more elongation  
-✅ **mobile envelope proportions** - properly scaled flap and pocket for smaller screens  
-✅ **smooth envelope movement** - synchronized with letter animation on all devices  
+✅ **mobile text sizing** - 0.7rem fonts prevent overlaps on small screens  
+✅ **mobile containers fixed** - proper centering, no horizontal scrolling, no elongation  
+✅ **mobile envelope proportions** - flap 77px top, pocket 71px top/bottom - properly sealed  
+✅ **screen switching fixed** - password → yes/no → envelope screens now work correctly on mobile  
+✅ **horizontal scroll eliminated** - overflow-x: hidden on html, body, and all containers  
 
 ## license
 
