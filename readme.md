@@ -123,6 +123,12 @@ find the CSS variables at the **top of the CSS section** (around line 563):
 
 **envelope automatically moves down when opening** to reveal even more of the letter (60px on desktop, 40px on mobile)
 
+**mobile automatically scales differently:**
+- envelope: 220x140px (vs 280x180px desktop)
+- slide distance: 250px (vs 400px desktop)
+- text size: 0.75rem (vs 0.95rem desktop)
+- all optimized for small screens!
+
 **to make the paper longer:**
 ```css
 --letter-height: 600px; /* Increase for taller paper with more text lines */
@@ -346,6 +352,15 @@ a: make sure javascript is enabled in your browser. check the browser console (f
 **q: text too narrow on paper?**  
 a: adjust the `.words` class: decrease `left:` value and increase `width:` value.
 
+**q: mobile envelope looks warped or text visible through gaps?**  
+a: this is now fixed! envelope is scaled to 220x140px on mobile with properly proportioned flap and pocket.
+
+**q: mobile container too long or not centered?**  
+a: this is now fixed! containers are properly centered with max-width: 400px and centered using flexbox.
+
+**q: mobile letter slides too far up?**  
+a: this is now fixed! mobile uses 250px slide distance (vs 400px desktop) and text is sized smaller (0.75rem) to fit properly.
+
 ## tips for the best experience
 
 - deploy to vercel for free https hosting
@@ -383,11 +398,14 @@ this is a **client-side only** website:
 
 ## what's new in this version
 
-✅ **slide distance increased to 400px** (was 320px) - "From:" signature now visible!  
+✅ **slide distance increased to 400px** (was 320px) - "From:" signature now visible on desktop!  
 ✅ **envelope moves down** when opened (60px desktop, 40px mobile) - shows even more text!  
 ✅ **multiple password support** - accepts 6 different variations (case-insensitive)  
-✅ **mobile slide direction fixed** - paper now correctly slides upward on mobile  
-✅ **smooth envelope movement** - synchronized with letter animation  
+✅ **mobile optimizations** - envelope scaled to 220x140px, slide distance 250px for mobile  
+✅ **mobile text sizing** - smaller fonts prevent overlaps on small screens  
+✅ **mobile containers fixed** - proper centering and no more elongation  
+✅ **mobile envelope proportions** - properly scaled flap and pocket for smaller screens  
+✅ **smooth envelope movement** - synchronized with letter animation on all devices  
 
 ## license
 
