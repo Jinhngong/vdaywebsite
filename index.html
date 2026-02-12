@@ -560,8 +560,8 @@
                                    This is the visible length above envelope when opened
            ============================================ */
         :root {
-            --letter-height: 500px; 
-            --letter-slide-distance: 320px; /* How far paper slides up (positive number) */
+            --letter-height: 440px; /* Increased to fit 14 lines */ 
+            --letter-slide-distance: 400px; /* How far paper slides up (increased to show From: Jin) */
         }
 
         #envelope {
@@ -576,6 +576,12 @@
             box-shadow: 0 4px 20px rgba(255, 179, 193, 0.3);
             cursor: pointer;
             overflow: visible; /* Allow flap to extend, but letter is clipped separately */
+            transition: transform 0.4s 0.6s ease; /* Smooth downward movement */
+        }
+
+        /* Move envelope down when opened to show more of the letter */
+        #envelope.open {
+            transform: translateY(80px); /* Increased to 80px to show From: Jin */
         }
 
         /* Letter clipping container - extends to envelope bottom for realistic letter */
@@ -730,12 +736,19 @@
         .words.line12 {
             top: 70%;
             font-size: 0.95rem;
-            text-align: center;
+            text-align: left;
             line-height: 1.4;
         }
 
         .words.line13 {
-            top: 90%;
+            top: 80%;
+            font-size: 0.95rem;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .words.line14 {
+            top: 92%;
             right: 2%;
             left: auto;
             width: auto;
@@ -901,8 +914,6 @@
         @media (max-width: 768px) {
             .password-screen, .question-box, .letter-box {
                 width: 90% !important;
-                /* This line pushes the boxes UP from the center */
-                transform: translateY(-80px) !important; 
                 margin: 0 auto !important;
                 z-index: 10;
             }
@@ -935,8 +946,13 @@
             }
 
             .open .letter {
-                transform: translateY(calc(var(--letter-slide-distance) + 40px)); /* Adjusted for mobile */
+                transform: translateY(calc(-1 * var(--letter-slide-distance))); /* Slide UP on mobile */
                 clip-path: inset(0 0 0 0); /* Show all when open */
+            }
+
+            /* Envelope moves down less on mobile */
+            #envelope.open {
+                transform: translateY(50px); /* Less movement on mobile */
             }
 
             .envlope-wrapper {
@@ -1130,17 +1146,18 @@
                         <div class="letter">
                             <div class="words line1">To: Mook</div>
                             <div class="words line2">It's been almost a year since we met,</div>
-                            <div class="words line3">and I've loved every minute of it. Your</div>
-                            <div class="words line4">style, your voice, the way you carry yourself...</div>
-                            <div class="words line5">and even just your smile. EVERYTHING</div>
-                            <div class="words line6">about you makes my heart skip a beat.</div>
-                            <div class="words line7">I've liked you for a long time, and even</div>
-                            <div class="words line8">though I can't be there physically right</div>
-                            <div class="words line9">now, will you be my Valentine? I'd love to take</div>
-                            <div class="words line10">you somewhere truly nice when I'm</div>
-                            <div class="words line11">finally there with you.</div>
-                            <div class="words line12">I love you ♡</div>
-                            <div class="words line13">From: Jin</div>
+                            <div class="words line3">and I've loved every minute of it.</div>
+                            <div class="words line4">Your style, your voice, the way you</div>
+                            <div class="words line5">carry yourself... and even just your smile.</div>
+                            <div class="words line6">EVERYTHING about you makes my</div>
+                            <div class="words line7">heart skip a beat.</div>
+                            <div class="words line8">I've liked you for a long time, and even</div>
+                            <div class="words line9">though I can't be there physically right</div>
+                            <div class="words line10">now, will you be my Valentine?</div>
+                            <div class="words line11">I'd love to take you somewhere truly nice</div>
+                            <div class="words line12">when I'm finally there with you.</div>
+                            <div class="words line13">I love you ♡</div>
+                            <div class="words line14">From: Jin</div>
                         </div>
                     </div>
                     <div class="hearts">
@@ -1193,6 +1210,8 @@
         // Password check
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
+            
+            // Multiple acceptable password variations (case-insensitive)
             const correctPasswords = [
                 '24july2007',
                 '24jul2007',
@@ -1201,13 +1220,13 @@
                 '2472550',
                 '24072550'
             ];
-
-            // Case-insensitive comparison
+            
+            // Check if entered password matches any of the correct ones (case-insensitive)
             const isCorrect = correctPasswords.some(correct => 
                 password.toLowerCase() === correct.toLowerCase()
             );
             
-            if (password === correctPassword) {
+            if (isCorrect) {
                 document.getElementById('passwordScreen').classList.add('hidden');
                 document.getElementById('questionScreen').style.display = 'block';
             } else {
