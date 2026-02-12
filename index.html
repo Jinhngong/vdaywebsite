@@ -929,9 +929,10 @@
                 width: 100% !important;
                 height: 100vh !important;
                 max-height: 100vh !important;
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
+            }
+            
+            body {
+                position: relative !important;
             }
 
             /* Ensure hidden class works on mobile */
@@ -959,9 +960,10 @@
                 align-items: center !important;
             }
             
-            /* Password screen also fixed */
+            /* Password screen also fixed and centered */
             .password-screen {
                 position: relative !important;
+                margin: auto !important;
             }
 
             /* Container fixes for mobile - wider and better margins */
@@ -974,6 +976,11 @@
                 box-sizing: border-box !important;
             }
             
+            /* Letter box specifically - smaller container */
+            .letter-box {
+                max-width: 360px !important;
+                padding: 25px 20px !important;
+            }
             .password-screen h1, .question-box h1 {
                 font-size: 1.6em !important;
             }
@@ -988,6 +995,13 @@
                 min-height: auto !important;
                 max-height: 90vh !important;
                 overflow-y: auto !important;
+                overflow: visible !important; /* Allow no button to escape */
+            }
+            
+            /* No button can jump anywhere on screen */
+            .no-btn {
+                position: fixed !important;
+                z-index: 9999 !important;
             }
 
             /* Envelope scaled down for mobile */
@@ -1041,12 +1055,12 @@
                 transform: translateY(40px) !important;
             }
 
-            /* Envelope wrapper height for mobile */
+            /* Envelope wrapper height for mobile - matches smaller letter-box */
             .envlope-wrapper {
                 height: 480px !important;
                 margin-top: 20px !important;
                 width: 100% !important;
-                max-width: 420px !important;
+                max-width: 360px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
             }
